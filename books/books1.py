@@ -27,7 +27,18 @@ def getAction():
 
 
 def printAuthors():
-    print("yay we are in printAuthors!")
+    authors = []
+    authorsSpliced = []
+    with open(parameters[0], newline='') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            authors.append(row[2])
+    for a in authors:
+        spliceIndex = a.find("(")
+        a = a[:spliceIndex]
+        authorsSpliced.append(a)
+    for author in authorsSpliced:
+        print(author)
 
 
 def printBooks():
