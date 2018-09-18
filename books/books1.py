@@ -9,11 +9,17 @@ cmd_line_arguments_list = []
 
 def readInput():
     if len(sys.argv) < 3:
-        print("Please add to the command line a book source file and an action!", file=sys.stderr)
-        print("Like this: python3 books1.py input-file action [sort-direction]", file=sys.stderr)
+        print("Please include a csv file and an action!\nLike this: python3 books1.py input-file action [sort-direction]", file=sys.stderr)
         sys.exit()
     cmd_line_arguments_list.append(sys.argv[1])
+    try:
+        open(cmd_line_arguments_list[0])
+    except FileNotFoundError:
+        print("\"" + cmd_line_arguments_list[0] + "\" is not a valid file! Please ensure you have the correct name and location.", file=sys.stderr)
+        sys.exit()
     cmd_line_arguments_list.append(sys.argv[2])
+    if(cmd_line_arguments_list[1] != "books" and cmd_line_arguments_list[1] != "authors"):
+        print("Action not recognized! Please use only \"books\" and \"authors\" as actions.", file=sys.stderr)
     if len(sys.argv) == 4:
         if (sys.argv[3] == "forward"):
             cmd_line_arguments_list.append(False)
@@ -31,9 +37,6 @@ def getAction():
         printBooks()
     elif cmd_line_arguments_list[1] == "authors":
         printAuthors()
-    else:
-        print("Please type in only 'books' or 'authors' as the action!", file=sys.stderr)
-        sys.exit()
 
 
 def splitAuthors(author, authorList):
@@ -96,8 +99,12 @@ def printAuthors():
         else:
             splitAuthors(a, authorsSplicedList)
     sortedAuthorsList = sortAuthors(authorsSplicedList)
-    for a in sortedAuthorsList:
-        print(a)
+    if(cmd_line_arguments_list[2]==False):
+        for a in sortedAuthorsList:
+            print(a)
+    else:
+        for x in range (0, len(sortedAuthorsList)):
+            print(sortedAuthorsList[-1-x])
 
 
 def printBooks():
