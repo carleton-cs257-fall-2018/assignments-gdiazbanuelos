@@ -50,7 +50,7 @@ def splitAuthors(author, authorList):
     if(loopcounter == 5):
         print("infinite loop!!!!???")
     for a in seperatedAuthors:
-        authorList.append(a)
+        authorList.append(a.strip())
 
 # Returns true if the first name preceds the other alphabetically
 
@@ -60,16 +60,23 @@ def compareTwoNames(firstName, secondName):
     secondLastName = secondName[(secondName.rfind(" ") + 1):]
     return firstLastName < secondLastName
 
+def sameLastName(firstName, secondName):
+    firstLastName = firstName[(firstName.rfind(" ") + 1):]
+    secondLastName = secondName[(secondName.rfind(" ") + 1):]
+    return firstLastName == secondLastName
+
 
 def sortAuthors(unsortedList):
     sortedList = []
     for i in range(0, len(unsortedList)):
         firstAlphabetical = "zzz"
         for j in range(0, len(unsortedList)):
-            if(compareTwoNames(unsortedList[j], firstAlphabetical)):
+            if(sameLastName(unsortedList[j], firstAlphabetical)):
+                if(unsortedList[j] < firstAlphabetical):
+                    firstAlphabetical = unsortedList[j]
+            elif(compareTwoNames(unsortedList[j], firstAlphabetical)):
                 firstAlphabetical = unsortedList[j]
         sortedList.append(firstAlphabetical)
-        print("Adding " + firstAlphabetical)
         unsortedList.remove(firstAlphabetical)
     return sortedList
 
@@ -85,7 +92,7 @@ def printAuthors():
         if(a.find("and") == -1):
             spliceIndex = a.find("(")
             a = a[:spliceIndex]
-            authorsSplicedList.append(a)
+            authorsSplicedList.append(a.strip())
         else:
             splitAuthors(a, authorsSplicedList)
     sortedAuthorsList = sortAuthors(authorsSplicedList)
