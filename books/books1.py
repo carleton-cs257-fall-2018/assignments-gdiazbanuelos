@@ -9,9 +9,9 @@ parameters = []
 
 def readInput():
     if len(sys.argv) < 3:
-        print("Please add to the command line a book source file and an action!")
-        print('Usage: blah blah blah', file=sys.stderr)
-        sys.exit("Like this: python3 books1.py input-file action [sort-direction]")
+        print("Please add to the command line a book source file and an action!", file=sys.stderr)
+        print("Like this: python3 books1.py input-file action [sort-direction]", file=sys.stderr)
+        sys.exit()
     parameters.append(sys.argv[1])
     parameters.append(sys.argv[2])
     if len(sys.argv) == 4:
@@ -20,7 +20,8 @@ def readInput():
         elif (sys.argv[3] == "reverse"):
             parameters.append(True)
         else:
-            sys.exit("Please type only 'forward' or 'reverse' as the third parameter!")
+            print("Please type only 'forward' or 'reverse' as the third parameter!", file=sys.stderr)
+            sys.exit()
     else:
         parameters.append(False)
 
@@ -31,7 +32,8 @@ def getAction():
     elif parameters[1] == "authors":
         printAuthors()
     else:
-        sys.exit("Please type in only 'books' or 'authors' as the action!")
+        print("Please type in only 'books' or 'authors' as the action!", file=sys.stderr)
+        sys.exit()
 
 
 def printAuthors():
