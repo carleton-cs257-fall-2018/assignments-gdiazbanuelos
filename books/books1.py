@@ -11,6 +11,7 @@ def readInput():
     if len(sys.argv) < 3:
         print("Please add to the command line a book source file and an action!", file=sys.stderr)
         print("Like this: python3 books1.py input-file action [sort-direction]", file=sys.stderr)
+        print("Git testing, Gus")
         sys.exit()
     cmd_line_arguments_list.append(sys.argv[1])
     cmd_line_arguments_list.append(sys.argv[2])
