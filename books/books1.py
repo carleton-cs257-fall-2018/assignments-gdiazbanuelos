@@ -1,9 +1,17 @@
+# Gustavo Diaz Banuelos
+# John Sherer
+# CS 257
+
 import csv
 import sys
 parameters = []
 
 
 def readInput():
+    if len(sys.argv) < 3:
+        print("Please add to the command line a book source file and an action!")
+        print('Usage: blah blah blah', file=sys.stderr)
+        sys.exit("Like this: python3 books1.py input-file action [sort-direction]")
     parameters.append(sys.argv[1])
     parameters.append(sys.argv[2])
     if len(sys.argv) == 4:
@@ -23,7 +31,7 @@ def getAction():
     elif parameters[1] == "authors":
         printAuthors()
     else:
-        sys.exit("Please type in only 'books' or 'authors'!")
+        sys.exit("Please type in only 'books' or 'authors' as the action!")
 
 
 def printAuthors():
