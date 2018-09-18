@@ -4,7 +4,7 @@
 
 import csv
 import sys
-parameters = []
+cmd_line_arguments_list = []
 
 
 def readInput():
@@ -12,24 +12,24 @@ def readInput():
         print("Please add to the command line a book source file and an action!", file=sys.stderr)
         print("Like this: python3 books1.py input-file action [sort-direction]", file=sys.stderr)
         sys.exit()
-    parameters.append(sys.argv[1])
-    parameters.append(sys.argv[2])
+    cmd_line_arguments_list.append(sys.argv[1])
+    cmd_line_arguments_list.append(sys.argv[2])
     if len(sys.argv) == 4:
         if (sys.argv[3] == "forward"):
-            parameters.append(False)
+            cmd_line_arguments_list.append(False)
         elif (sys.argv[3] == "reverse"):
-            parameters.append(True)
+            cmd_line_arguments_list.append(True)
         else:
             print("Please type only 'forward' or 'reverse' as the third parameter!", file=sys.stderr)
             sys.exit()
     else:
-        parameters.append(False)
+        cmd_line_arguments_list.append(False)
 
 
 def getAction():
-    if parameters[1] == "books":
+    if cmd_line_arguments_list[1] == "books":
         printBooks()
-    elif parameters[1] == "authors":
+    elif cmd_line_arguments_list[1] == "authors":
         printAuthors()
     else:
         print("Please type in only 'books' or 'authors' as the action!", file=sys.stderr)
@@ -39,7 +39,7 @@ def getAction():
 def printAuthors():
     authors = []
     authorsSpliced = []
-    with open(parameters[0], newline='') as f:
+    with open(cmd_line_arguments_list[0], newline='') as f:
         reader = csv.reader(f)
         for row in reader:
             authors.append(row[2])
@@ -53,11 +53,11 @@ def printAuthors():
 
 def printBooks():
     titles = []
-    with open(parameters[0], newline='') as f:
+    with open(cmd_line_arguments_list[0], newline='') as f:
         reader = csv.reader(f)
         for row in reader:
             titles.append(row[0])
-    titles.sort(reverse=parameters[2])
+    titles.sort(reverse=cmd_line_arguments_list[2])
     for t in titles:
         print(t)
 
