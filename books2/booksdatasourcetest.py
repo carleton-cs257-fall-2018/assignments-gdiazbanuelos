@@ -24,17 +24,54 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_book(self):
         self.assertEqual(self.booksdatasource_checker.book(0), {'id': 0, 'title': 'All Clear', 'publication_year': 2010})
 
-    def test_book_raise_error(self):
+    def test_book_invalid_id(self):
         self.assertRaises(ValueError, self.booksdatasource_checker.book, -1)
 
     def test_books(self):
         self.assertEqual(self.booksdatasource_checker.books(author_id=0), ['Connie Willis'])
 
+    def test_books_invalid_id(self):
+        self.assertRaises(ValueError, self.booksdatasource_checker.books, author_id=-1)
+
+    def test_books_non_int_id(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.books, author_id="egg")
+
+    def test_books_non_int_start_year(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.books, start_year="egg")
+
+    def test_books_non_int_end_year(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.books, end_year="egg")
+
+    def test_books_non_string_search_text(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.books, search_text=1)
+
+    def test_books_non_string_sort_by(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.books, sort_by=1)
+
     def test_author(self):
         self.assertEqual(self.booksdatasource_checker.author(0), {'id': 0, 'last_name': 'Connie', 'first_name': 'Willis', 'birth_year': 1945, 'death_year': None})
 
+    def test_author_invalid_id(self):
+        self.assertRaises(ValueError, self.booksdatasource_checker.author, -1)
+
     def test_authors(self):
         self.assertEqual(self.booksdatasource_checker.authors(book_id=0), ["All Clear"])
+
+    def test_authors_non_int_id(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.authors, book_id="egg")
+
+    def test_authors_non_int_start_year(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.authors, start_year="egg")
+
+    def test_authors_non_int_end_year(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.authors, end_year="egg")
+
+    def test_authors_non_string_search_text(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.authors, search_text=1)
+
+    def test_authors_non_string_sort_by(self):
+        self.assertRaises(TypeError, self.booksdatasource_checker.authors, sort_by=1)
+
 
     def test_books_for_author(self):
         self.assertEqual(self.booksdatasource_checker.books_for_author(0), ["All Clear"])
