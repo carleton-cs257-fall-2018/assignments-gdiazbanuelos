@@ -24,6 +24,9 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_book(self):
         self.assertEqual(self.booksdatasource_checker.book(0), {'id': 0, 'title': 'All Clear', 'publication_year': 2010})
 
+    def test_book_raise_error(self):
+        self.assertRaises(ValueError, self.booksdatasource_checker.book, -1)
+
     def test_books(self):
         self.assertEqual(self.booksdatasource_checker.books(author_id=0), ['Connie Willis'])
 
