@@ -42,6 +42,15 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_books_non_int_end_year(self):
         self.assertRaises(TypeError, self.booksdatasource_checker.books, end_year="egg")
 
+    def test_books_in_between_years(self):
+        self.assertEqual(self.booksdatasource_checker.books(start_year=1980, end_year=1990), ["Beloved", "Good Omens", "Love in the Time of Cholera"])
+
+    def test_books_after_start_year(self):
+        self.assertEqual(self.booksdatasource_checker.books(start_year=2010), ["All Clear", "Blackout"])
+
+    def test_books_in_before_end_years(self):
+        self.assertEqual(self.booksdatasource_checker.books(end_year=1900), ["Emma", "Jane Eyre"])
+
     def test_books_non_string_search_text(self):
         self.assertRaises(TypeError, self.booksdatasource_checker.books, search_text=1)
 
@@ -71,7 +80,6 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_authors_non_string_sort_by(self):
         self.assertRaises(TypeError, self.booksdatasource_checker.authors, sort_by=1)
-
 
     def test_books_for_author(self):
         self.assertEqual(self.booksdatasource_checker.books_for_author(0), ["All Clear"])
