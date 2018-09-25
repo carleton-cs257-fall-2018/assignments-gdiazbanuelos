@@ -2,6 +2,7 @@
 '''
     booksdatasource.py
     Jeff Ondich, 18 September 2018
+    Written by John Sherer and Gustavo Diaz
 
     For use in some assignments at the beginning of Carleton's
     CS 257 Software Design class, Fall 2018.
@@ -10,7 +11,21 @@ authors = []
 
 books = []
 
+link = []
+
 import csv
+
+def get_book_author_ids(book):
+        result = []
+        for i in range(0, len(link)):
+            if(link[i]['book_id'] == book['id']):
+                for j in range(0, len(authors)):
+                    if(link[i]['author_id'] == authors[j]['id']):
+                        result.append(authors[j]['id'])
+        result.append(0)
+        return result
+
+
 class BooksDataSource:
     '''
     A BooksDataSource object provides access to data about books and authors.
@@ -98,9 +113,17 @@ class BooksDataSource:
                     newEntry['death_year'] = int(row[4])
                 authors.append(newEntry)
 
-    def book(self, book_id):
+        with open(books_authors_link_filename, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                newEntry = {'book_id':'NULL', 'author_id':'NULL'}
+                newEntry['book_id'] = row[0]
+                newEntry['author_id'] = row[1]
+                link.append(newEntry)
+
+    def book(self, book_id): #DOES NOT CHECK IF BOOK_ID EXISTS IN THE DATABASE. FIX??????
         if(book_id < 0):
-            raise ValueError("The provided book_id is not valid!")
+            raise ValueError("The provided book id is not valid!")
         for i in range(0, len(books)): 
             if(int(books[i]['id']) == book_id):
                 return books[i]
@@ -139,14 +162,38 @@ class BooksDataSource:
             QUESTION: How about ValueError? And if so, for which parameters?
             Raises ValueError if author_id is non-None but is not a valid author ID.
         '''
-        return []
+        unsorted_list = []
+        for i in range(0, len(books)):
+            targetBook = books[i]
+            if(author_id == None or author_id in get_book_author_ids(targetBook)):
+                if(search_text == None or search_text in targetBook['title']):
+                    if(start_year == None or start_year <= targetBook['publication_year']):
+                        if(end_year == None or end_year >= targetBook['publication_year']):
+                            unsorted_list.append(targetBook)
+        if(len(unsorted_list)>1):
+            sorted_list = []
+            search_criterion = 'title'
+            if(sort_by == 'year'):
+                search_criterion = 'publication_year'
+
+            while(len(unsorted_list) != 0):
+                first = unsorted_list[0]
+                for i in range(1, len(unsorted_list)):
+                    if(unsorted_list[i][search_criterion] < first[search_criterion]):
+                        first = unsorted_list[i]
+                sorted_list.append(first)
+                unsorted_list.remove(first)
+            return sorted_list
+        else:
+            return unsorted_list
+            
 
     def author(self, author_id):
-        ''' Returns the author with the specified ID. (See the BooksDataSource comment for a
-            description of how an author is represented.)
-
-            Raises ValueError if author_id is not a valid author ID.
-        '''
+        if(author_id < 0):
+            raise ValueError("The provided author id is not valid!")
+        for i in range(0, len(authors)): 
+            if(int(authors[i]['id']) == author_id):
+                return authors[i]
         return {}
 
     def authors(self, *, book_id=None, search_text=None, start_year=None, end_year=None, sort_by='birth_year'):
