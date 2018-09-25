@@ -67,7 +67,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertRaises(TypeError, self.booksdatasource_checker.books, sort_by=1)
 
     def test_author(self):
-        self.assertEqual(self.booksdatasource_checker.author(0), {'id': 0, 'last_name': 'Connie', 'first_name': 'Willis', 'birth_year': 1945, 'death_year': None})
+        self.assertEqual(self.booksdatasource_checker.author(0), {'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'NULL'})
 
     def test_author_invalid_id(self):
         self.assertRaises(ValueError, self.booksdatasource_checker.author, -1)
