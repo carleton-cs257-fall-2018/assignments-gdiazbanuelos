@@ -43,22 +43,25 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertRaises(TypeError, self.booksdatasource_checker.books, end_year="egg")
 
     def test_books_in_between_years(self):
-        self.assertEqual(self.booksdatasource_checker.books(start_year=1980, end_year=1990), ["Beloved", "Good Omens", "Love in the Time of Cholera"])
+        self.assertEqual(self.booksdatasource_checker.books(start_year=1980, end_year=1990), [{'id': 2, 'title': 'Beloved', 'publication_year': 1987},
+                        {'id': 6, 'title': 'Good Omens', 'publication_year': 1990}, {'id': 9, 'title': 'Love in the Time of Cholera', 'publication_year': 1985}])
 
     def test_books_after_start_year(self):
-        self.assertEqual(self.booksdatasource_checker.books(start_year=2010), ["All Clear", "Blackout"])
+        self.assertEqual(self.booksdatasource_checker.books(start_year=2010), [{'id': 0, 'title': 'All Clear', 'publication_year': 2010}, {'id': 3, 'title': 'Blackout', 'publication_year': 2010}])
 
     def test_books_in_before_end_years(self):
-        self.assertEqual(self.booksdatasource_checker.books(end_year=1900), ["Emma", "Jane Eyre"])
+        self.assertEqual(self.booksdatasource_checker.books(end_year=1900), [{'id': 5, 'title': 'Emma', 'publication_year': 1815}, {'id': 7, 'title': 'Jane Eyre', 'publication_year': 1847}])
 
     def test_books_with_author_id(self):
-        self.assertEqual(self.booksdatasource_checker.books(author_id=0), ["All Clear", "Blackout Jane"])
+        self.assertEqual(self.booksdatasource_checker.books(author_id=0), [{'id': 0, 'title': 'All Clear', 'publication_year': 2010}, {'id': 3, 'title': 'Blackout', 'publication_year': 2010}])
 
     def test_books_with_search_text(self):
-        self.assertEqual(self.booksdatasource_checker.books(search_text="me"), ["Elmer Gantry", "Good Omens", "Love in the Time of Cholera"])
+        self.assertEqual(self.booksdatasource_checker.books(search_text="me"), [{'id': 4, 'title': 'Elmer Gantry', 'publication_year': 1927},
+                        {'id': 6, 'title': 'Good Omens', 'publication_year': 1990}, {'id': 9, 'title': 'Love in the Time of Cholera', 'publication_year': 1985}])
 
     def test_books_by_year(self):
-        self.assertEqual(self.booksdatasource_checker.books(start_year=1989, sort_by='year'), ["Good Omens", "All Clear", "Blackout"])
+        self.assertEqual(self.booksdatasource_checker.books(start_year=1989, sort_by='year'), [{'id': 3, 'title': 'Blackout', 'publication_year': 2010},
+                            {'id': 0, 'title': 'All Clear', 'publication_year': 2010}, {'id': 6, 'title': 'Good Omens', 'publication_year': 1990}])
 
     def test_books_non_string_search_text(self):
         self.assertRaises(TypeError, self.booksdatasource_checker.books, search_text=1)
@@ -73,7 +76,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertRaises(ValueError, self.booksdatasource_checker.author, -1)
 
     def test_authors(self):
-        self.assertEqual(self.booksdatasource_checker.authors(book_id=0), ["All Clear"])
+        self.assertEqual(self.booksdatasource_checker.authors(book_id=0), [{'id': 0, 'title': 'All Clear', 'publication_year': 2010}])
 
     def test_authors_non_int_id(self):
         self.assertRaises(TypeError, self.booksdatasource_checker.authors, book_id="egg")
@@ -91,10 +94,10 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertRaises(TypeError, self.booksdatasource_checker.authors, sort_by=1)
 
     def test_books_for_author(self):
-        self.assertEqual(self.booksdatasource_checker.books_for_author(0), ["All Clear"])
+        self.assertEqual(self.booksdatasource_checker.books_for_author(0), {'id': 0, 'title': 'All Clear', 'publication_year': 2010})
 
     def test_authors_for_book(self):
-        self.assertEqual(self.booksdatasource_checker.authors_for_book(0), ["Connie Willis"])
+        self.assertEqual(self.booksdatasource_checker.authors_for_book(0), {'id': 0, 'last_name': 'Willis', 'first_name': 'Connie', 'birth_year': 1945, 'death_year': 'NULL'})
 
 
 if __name__ == '__main__':
