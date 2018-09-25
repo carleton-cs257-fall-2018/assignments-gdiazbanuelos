@@ -6,7 +6,11 @@
     For use in some assignments at the beginning of Carleton's
     CS 257 Software Design class, Fall 2018.
 '''
+authors = []
 
+books = []
+
+import csv
 class BooksDataSource:
     '''
     A BooksDataSource object provides access to data about books and authors.
@@ -44,7 +48,7 @@ class BooksDataSource:
         {'id': 193, 'title': 'A Wild Sheep Chase', 'publication_year': 1982}
 
     '''
-
+ 
     def __init__(self, books_filename, authors_filename, books_authors_link_filename):
         ''' Initializes this data source from the three specified  CSV files, whose
             CSV fields are:
@@ -73,9 +77,35 @@ class BooksDataSource:
             NOTE TO STUDENTS: I have not specified how you will store the books/authors
             data in a BooksDataSource object. That will be up to you, in Phase 3.
         '''
-        pass
+        with open(books_filename, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                newEntry = {'id':'NULL', 'title':'NULL', 'publication_year':'NULL'}
+                newEntry['id'] = row[0]
+                newEntry['title'] = row[1]
+                newEntry['publication_year'] = row[2]
+                books.append(newEntry)
+
+        with open(authors_filename, newline='') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                newEntry = {'id':'NULL', 'last_name':'NULL', 'first_name':'NULL', 'birth_year':'NULL', 'death_year':'NULL'}
+                newEntry['id'] = row[0]
+                newEntry['last_name'] = row[1]
+                newEntry['first_name'] = row[2]
+                newEntry['birth_year'] = row[3]
+                if(len(row) == 5):
+                    newEntry['death_year'] = row[4]
+                authors.append(newEntry)
 
     def book(self, book_id):
+        if(book_id < 0):
+            raise ValueError("The provided book_id is not valid!")
+        for i in range(0, len(books)):
+            print("" + books[i]['id'] + ", " + book_id)
+            if(int(books[i]['id']) == book_id):
+                return books[i]
+
         ''' Returns the book with the specified ID. (See the BooksDataSource comment
             for a description of how a book is represented.)
 
