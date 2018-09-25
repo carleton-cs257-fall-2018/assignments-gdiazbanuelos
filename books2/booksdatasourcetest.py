@@ -16,7 +16,7 @@ import unittest
 
 class BooksDataSourceTester(unittest.TestCase):
     def setUp(self):
-        self.booksdatasource_checker = booksdatasource.BooksDataSource("books.csv", "authors.csv", "books_authors.csv")
+        self.booksdatasource_checker = booksdatasource.BooksDataSource("testbooks.csv", "authors.csv", "books_authors10.csv")
 
     def tearDown(self):
         pass
@@ -28,7 +28,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertRaises(ValueError, self.booksdatasource_checker.book, -1)
 
     def test_books(self):
-        self.assertEqual(self.booksdatasource_checker.books(author_id=0), ['Connie Willis'])
+        self.assertEqual(self.booksdatasource_checker.books()[0], {'id': 0, 'title': 'All Clear', 'publication_year': 2010})
 
     def test_books_invalid_id(self):
         self.assertRaises(ValueError, self.booksdatasource_checker.books, author_id=-1)
