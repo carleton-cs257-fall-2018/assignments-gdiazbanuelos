@@ -81,21 +81,21 @@ class BooksDataSource:
             reader = csv.reader(f)
             for row in reader:
                 newEntry = {'id':'NULL', 'title':'NULL', 'publication_year':'NULL'}
-                newEntry['id'] = row[0]
+                newEntry['id'] = int(row[0])
                 newEntry['title'] = row[1]
-                newEntry['publication_year'] = row[2]
+                newEntry['publication_year'] = int(row[2])
                 books.append(newEntry)
 
         with open(authors_filename, newline='') as f:
             reader = csv.reader(f)
             for row in reader:
                 newEntry = {'id':'NULL', 'last_name':'NULL', 'first_name':'NULL', 'birth_year':'NULL', 'death_year':'NULL'}
-                newEntry['id'] = row[0]
+                newEntry['id'] = int(row[0])
                 newEntry['last_name'] = row[1]
                 newEntry['first_name'] = row[2]
-                newEntry['birth_year'] = row[3]
-                if(len(row) == 5):
-                    newEntry['death_year'] = row[4]
+                newEntry['birth_year'] = int(row[3])
+                if(len(row) == 5 and row[4]!='NULL'):
+                    newEntry['death_year'] = int(row[4])
                 authors.append(newEntry)
 
     def book(self, book_id):
