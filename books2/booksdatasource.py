@@ -16,13 +16,21 @@ link = []
 import csv
 
 def get_book_author_ids(book):
+    result = []
+    for i in range(0, len(link)):
+        if(link[i]['book_id'] == book['id']):
+            for j in range(0, len(authors)):
+                if(link[i]['author_id'] == authors[j]['id']):
+                    result.append(authors[j]['id'])
+    return result
+
+def get_author_book_ids(author):
         result = []
         for i in range(0, len(link)):
-            if(link[i]['book_id'] == book['id']):
-                for j in range(0, len(authors)):
-                    if(link[i]['author_id'] == authors[j]['id']):
-                        result.append(authors[j]['id'])
-        result.append(0)
+            if(link[i]['author_id'] == author['id']):
+                for j in range(0, len(books)):
+                    if(link[i]['book_id'] == books[j]['id']):
+                        result.append(books[j]['id'])
         return result
 
 
@@ -117,8 +125,8 @@ class BooksDataSource:
             reader = csv.reader(f)
             for row in reader:
                 newEntry = {'book_id':'NULL', 'author_id':'NULL'}
-                newEntry['book_id'] = row[0]
-                newEntry['author_id'] = row[1]
+                newEntry['book_id'] = int(row[0])
+                newEntry['author_id'] = int(row[1])
                 link.append(newEntry)
 
     def book(self, book_id): #DOES NOT CHECK IF BOOK_ID EXISTS IN THE DATABASE. FIX??????
@@ -221,7 +229,16 @@ class BooksDataSource:
 
             See the BooksDataSource comment for a description of how an author is represented.
         '''
-        return []
+        unsorted_list = []
+        for i in range(0, len(authors)):
+            targetAuthor = authors[i]
+            if(book_id == None or book_id in get_author_book_ids(targetAuthor)):
+                if(search_text == None or (search_text in targetAuthor['first_name'] or search_text in targetAuthor['last_name'])):
+                    if(start_year == None or start_year >= targetAuthor['birth_year']):
+                        if(end_year == None or end_year <= targetAuthor['death_year']):
+                            unsorted_list.append(targetAuthor)
+
+        return unsorted_list #GOTTA SORT THIS
 
 
     # Note for my students: The following two methods provide no new functionality beyond
