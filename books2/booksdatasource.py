@@ -101,8 +101,7 @@ class BooksDataSource:
     def book(self, book_id):
         if(book_id < 0):
             raise ValueError("The provided book_id is not valid!")
-        for i in range(0, len(books)):
-            print("" + books[i]['id'] + ", " + book_id)
+        for i in range(0, len(books)): 
             if(int(books[i]['id']) == book_id):
                 return books[i]
 
