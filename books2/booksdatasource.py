@@ -71,7 +71,7 @@ class BooksDataSource:
         {'id': 193, 'title': 'A Wild Sheep Chase', 'publication_year': 1982}
 
     '''
- 
+
     def __init__(self, books_filename, authors_filename, books_authors_link_filename):
         ''' Initializes this data source from the three specified  CSV files, whose
             CSV fields are:
@@ -132,7 +132,7 @@ class BooksDataSource:
     def book(self, book_id): #DOES NOT CHECK IF BOOK_ID EXISTS IN THE DATABASE. FIX??????
         if(book_id < 0):
             raise ValueError("The provided book id is not valid!")
-        for i in range(0, len(books)): 
+        for i in range(0, len(books)):
             if(int(books[i]['id']) == book_id):
                 return books[i]
 
@@ -194,12 +194,12 @@ class BooksDataSource:
             return sorted_list
         else:
             return unsorted_list
-            
+
 
     def author(self, author_id):
         if(author_id < 0):
             raise ValueError("The provided author id is not valid!")
-        for i in range(0, len(authors)): 
+        for i in range(0, len(authors)):
             if(int(authors[i]['id']) == author_id):
                 return authors[i]
         return {}
@@ -258,4 +258,3 @@ class BooksDataSource:
         ''' Returns a list of all the authors of the book with the specified book ID.
             See the BooksDataSource comment for a description of how an author is represented. '''
         return self.authors(book_id=book_id)
-
