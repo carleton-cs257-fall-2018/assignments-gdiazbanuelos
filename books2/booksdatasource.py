@@ -7,13 +7,14 @@
     For use in some assignments at the beginning of Carleton's
     CS 257 Software Design class, Fall 2018.
 '''
+import csv
+
 authors = []
 
 books = []
 
 link = []
 
-import csv
 
 def get_book_author_ids(book):
     result = []
@@ -23,6 +24,7 @@ def get_book_author_ids(book):
                 if(link[i]['author_id'] == authors[j]['id']):
                     result.append(authors[j]['id'])
     return result
+
 
 def get_author_book_ids(author):
         result = []
@@ -103,7 +105,7 @@ class BooksDataSource:
         with open(books_filename, newline='') as f:
             reader = csv.reader(f)
             for row in reader:
-                newEntry = {'id':'NULL', 'title':'NULL', 'publication_year':'NULL'}
+                newEntry = {'id': 'NULL', 'title': 'NULL', 'publication_year': 'NULL'}
                 newEntry['id'] = int(row[0])
                 newEntry['title'] = row[1]
                 newEntry['publication_year'] = int(row[2])
@@ -112,24 +114,24 @@ class BooksDataSource:
         with open(authors_filename, newline='') as f:
             reader = csv.reader(f)
             for row in reader:
-                newEntry = {'id':'NULL', 'last_name':'NULL', 'first_name':'NULL', 'birth_year':'NULL', 'death_year':'NULL'}
+                newEntry = {'id': 'NULL', 'last_name': 'NULL', 'first_name': 'NULL', 'birth_year': 'NULL', 'death_year': 'NULL'}
                 newEntry['id'] = int(row[0])
                 newEntry['last_name'] = row[1]
                 newEntry['first_name'] = row[2]
                 newEntry['birth_year'] = int(row[3])
-                if(len(row) == 5 and row[4]!='NULL'):
+                if(len(row) == 5 and row[4] != 'NULL'):
                     newEntry['death_year'] = int(row[4])
                 authors.append(newEntry)
 
         with open(books_authors_link_filename, newline='') as f:
             reader = csv.reader(f)
             for row in reader:
-                newEntry = {'book_id':'NULL', 'author_id':'NULL'}
+                newEntry = {'book_id': 'NULL', 'author_id': 'NULL'}
                 newEntry['book_id'] = int(row[0])
                 newEntry['author_id'] = int(row[1])
                 link.append(newEntry)
 
-    def book(self, book_id): #DOES NOT CHECK IF BOOK_ID EXISTS IN THE DATABASE. FIX??????
+    def book(self, book_id):  # DOES NOT CHECK IF BOOK_ID EXISTS IN THE DATABASE. FIX??????
         if(book_id < 0):
             raise ValueError("The provided book id is not valid!")
         for i in range(0, len(books)):
@@ -178,7 +180,7 @@ class BooksDataSource:
                     if(start_year == None or start_year <= targetBook['publication_year']):
                         if(end_year == None or end_year >= targetBook['publication_year']):
                             unsorted_list.append(targetBook)
-        if(len(unsorted_list)>1):
+        if(len(unsorted_list) > 1):
             sorted_list = []
             search_criterion = 'title'
             if(sort_by == 'year'):
@@ -194,7 +196,6 @@ class BooksDataSource:
             return sorted_list
         else:
             return unsorted_list
-
 
     def author(self, author_id):
         if(author_id < 0):
@@ -238,8 +239,7 @@ class BooksDataSource:
                         if(end_year == None or end_year <= targetAuthor['death_year']):
                             unsorted_list.append(targetAuthor)
 
-        return unsorted_list #GOTTA SORT THIS
-
+        return unsorted_list  # GOTTA SORT THIS
 
     # Note for my students: The following two methods provide no new functionality beyond
     # what the books(...) and authors(...) methods already provide. But they do represent a
