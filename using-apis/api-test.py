@@ -26,31 +26,28 @@ def get_player(player_id):
     data_from_server = urllib.request.urlopen(player_id).read()
     string_from_server = data_from_server.decode('utf-8')
     player_data = json.loads(string_from_server)
-    print("\n\'rtz\'s current matchmaking rating (MMR): \n" + str(player_data["solo_competitive_rank"]) +"\n\n")
+    print("\nPro player Arteezy\'s current matchmaking rating (MMR): \n" + str(player_data["solo_competitive_rank"]) +"\n\n")
 
 
 def print_time():
     print("Accurate as of " + str(datetime.datetime.now()) + "\n")
 
 
-def get_user_command():
-    print("Here are the two operations available: ")
-    print("teams : gets the top 3 Dota 2 teams based on team Elo")
-    print("player : gets the solo elo of one the top Dota 2 platers in North America")
-    user_command = input("--> ")
-    return user_command
-
-
 def main():
-    function_to_run = get_user_command()
-    if(function_to_run == "teams"):
+    if(len(sys.argv) < 2 or len(sys.argv) >= 3):
+        print("Usage error: api-test.py action", file=sys.stderr)
+        print("Actions available are 'teams' or 'player'", file=sys.stderr)
+        sys.exit()
+
+    if(sys.argv[1] == "teams"):
         get_teams()
         print_time()
-    elif(function_to_run == "player"):
+    elif(sys.argv[1] == "player"):
         get_player(86745912)
         print_time()
     else:
-        print("\nPlease only type in either 'teams' or 'player' as the argument!\n", file=sys.stderr)
+        print("Usage error: api-test.py action", file=sys.stderr)
+        print("Please only type in either 'teams' or 'player' as the action argument!", file=sys.stderr)
         sys.exit()
 
 
