@@ -1,1 +1,8 @@
-print("yay i am here!")
+Gustavo Diaz
+John Sherer
+
+Dota 2 Matches:
+https://www.kaggle.com/devinanzelmo/dota-2-matches
+    -Download button on the right hand side
+
+User stories
