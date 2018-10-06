@@ -2,7 +2,26 @@ Gustavo Diaz
 John Sherer
 
 Dota 2 Matches:
+
+Dota 2 match data which contains data on game length, strucuture health, winning team, and first blood time, number of reports for 100k matches
+
 https://www.kaggle.com/devinanzelmo/dota-2-matches
     -Download button on the right hand side
 
 User stories
+
+"first blood time" means the time at which the first player dies in a match.
+
+As a player, I can see the statistical summary of structure(tower + barracks) heatlh left standing on the winning team,
+to see the importance of keeping structures standing.
+
+As an experienced player, I can compare first blood time to match length to see the influnece
+of first blood.
+
+As a player, I can see the win percentage where the winning team has no structures remaining to see the frequency of comebacks.
+
+As a player, I can compare game length to the amount of negative reports to see how fatigue affects player morale.
+
+As a player, I can see how game length relates to how much strucutre the winning team has kept alive to see how long
+long buildings stay up on average.
+
