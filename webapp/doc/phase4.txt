@@ -1,0 +1,55 @@
+CREATE TABLE matches (
+    id SERIAL,
+    start_time INT,
+    duration INT,
+    tower_status_radiant INT,
+    tower_status_dire INT,
+    barracks_status_dire INT,
+    barracks_status_radiant INT,
+    first_blood_time INT,
+    game_mode INT,
+    radiant_win BIT,
+    negative_votes INT,
+    positive_votes INT,
+)
+
+SYNOPSIS: Get data about a specific match
+
+QUERY (GET): /matches/<match_id>/
+
+RESPONSE: A dictionary containing all the data on the specified match
+
+EXAMPLE: http://whatever.com/matches/44569/
+
+{'start_time':1447777244,
+    'duration':2304,
+    'tower_status_radiant':1926,
+    'tower_status_dire':0,
+    'barracks_status_dire':0,
+    'barracks_status_radiant':63,
+    'first_blood_time':63,
+    'game_mode':22,
+    'radiant_win':False,
+    'negative_votes':0,
+    'positive_votes':0}
+
+
+SYNOPSIS: Get the number of matches with a specified value above/below a specified amount
+
+QUERY (GET): /matches/compare/<key>/<amount>
+
+RESPONSE: A dictionary with two integers, one representing the number of matches that exceeded the amount in the specified key and another repesenting how many fall below the amount
+
+EXAMPLE: http://whatever.com/matches/compare/first_blood_time/100
+
+{'greater than':6839
+ 'less than':43161}
+
+SNYOPSIS: Returns amount of wins for both teams
+
+QUERY (GET): /matches/wins/
+
+RESPONSE: A dictionary containing the number of wins in this database for each team
+
+EXAMPLE: http://whatever.com/matches/wins/
+{"Radiant": 25943, "Dire": 24057}
