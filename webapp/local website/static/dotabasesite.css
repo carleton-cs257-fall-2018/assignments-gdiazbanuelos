@@ -58,14 +58,14 @@ body {
  #yAxisDropBox {
     position: absolute;
     top: 475px;
-    left: 200px;
+    left: 150px;
     line-height: 2;
  }
 
 #xAxisDropBox {
     position: absolute;
     top: 750px;
-    left: 710px;
+    left: 675px;
     line-height: 2;
  }
 
