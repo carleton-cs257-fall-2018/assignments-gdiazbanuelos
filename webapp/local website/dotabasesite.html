@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" http-equiv="Access-Control-Allow-Origin" content="*">
+        <title>Dotabase</title>
+        <link rel="stylesheet" href="static/dotabasesite.css" type="text/css"/>
+    </head>
+    <body>
+        <div>
+            <div class="shadow orangecolor" id="dotaBaseHeader">Dotabase</div>
+        </div>
+        <br><br><br><br>
+        <p class="redcolor resize200">Welcome!</p>
+        <div id="linechart_material" style="width: 900px; height: 500px; position: absolute; top: 230px; left: 350px"></div>
+        <button id="generateButton" type="button">Generate!</button>
+        <script type="text/javascript" src="static/buttonScript.js"></script>
+        <select id="xAxisDropBox">
+            <option value="gameLength">Game Length</option>
+            <option value="firstBloodTime">First Blood Time</option>
+            <option value="strucutreHealth">Structure Health</option>
+        </select>
+        <select id="yAxisDropBox">
+            <option value="Win Rate">Win Rate %</option>
+            <option value="strucutreHealth">Structure Health</option>
+            <option value="gameLength">Game Length</option>
+            <option value="# of Negative Reports">Negative Reports</option>
+        </select>
+        <p class="resize140" id="topRight">What is dota?<a href="http://perlman.mathcs.carleton.edu:5207/help">
+            <br>
+            <img border="2" alt="Question mark" src="static/question.png" width="80" height="80"></a>
+        </p>
+        <div>
+            <canvas id="js_scatterplot" width="900" height="500" style="border:1px solid #000000;"></canvas>
+            <script type="text/javascript" src="static/newgraphingscript.js"></script>
+        </div>
+    </body>
+</html>

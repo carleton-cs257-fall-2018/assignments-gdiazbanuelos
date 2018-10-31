@@ -11,12 +11,13 @@ import psycopg2
 from config import password
 from config import database
 from config import user
+from flask import Flask, render_template
 app = flask.Flask(__name__)
 
 
 @app.route('/')
 def greeting():
-    return "Welcome to \"Dotabase\""
+    return render_template('dotabasesite.html')
 
 
 @app.route('/matches/<match_id>')

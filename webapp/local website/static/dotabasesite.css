@@ -1,0 +1,158 @@
+/*
+    Gus Diaz
+    John Sherer
+    CSS profile for website
+*/
+
+h1 {
+    font-size:400%;
+    letter-spacing: -5px;
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-indent: 50px;
+}
+
+body {
+    background-color: #7D88CA;
+}
+
+.redcolor {
+    color: #BA1515;
+}
+
+.orangecolor{
+    color: #DD0404;
+}
+
+.shadow {
+    text-shadow: 3px 2px #FF9c3F;
+}
+
+.resize140 {
+    font-size: 140%;
+}
+
+.resize200 {
+    font-size: 200%;
+}
+
+#topRight {
+    position: absolute;
+    top: 5px;
+    left: 1475px;
+}
+
+#generateButton {
+    position: absolute;
+    top: 475px;
+    left: 1300px;
+}
+
+#dotaBaseHeader {
+    font-size:400%;
+    letter-spacing: -3px;
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-indent: 540px;
+    float: left;
+ }
+
+ #yAxisDropBox {
+    position: absolute;
+    top: 475px;
+    left: 200px;
+    line-height: 2;
+ }
+
+#xAxisDropBox {
+    position: absolute;
+    top: 750px;
+    left: 710px;
+    line-height: 2;
+ }
+
+#helpHeader {
+    font-size:350%;
+    letter-spacing: -3px;
+    font-family: "Arial Black", Gadget, sans-serif;
+    text-indent: 600px;
+    float: left;
+ }
+
+#helpMap {
+    position: relative;
+    top: 0px;
+    left: 575px;
+}
+
+#radiantTower {
+    position: relative;
+    top: -375px;
+    left: 75px;
+}
+
+#direTower {
+    position: relative;
+    top: -780px;
+    left: 1250px;
+}
+
+#ancients {
+    position: relative;
+    top: -700px;
+    left: 500px;
+}
+
+#underMap {
+    text-indent: -5px;
+    font-size: 120%;
+}
+
+#ancientLabel {
+    position: absolute;
+    text-indent: 200px;
+    font-size: 300%;
+    top: -110px;
+}
+
+#radiantLabel {
+    font-size: 120%;
+}
+
+#radiantLabel2 {
+    font-size: 120%;
+}
+
+#direLabel {
+    text-indent: -100px;
+    font-size: 120%;
+}
+
+#direLabel2 {
+    text-indent: -100px;
+    font-size: 120%;
+}
+
+#roster {
+    position: relative;
+    top: -600px;
+    left: 200px;
+}
+
+#rosterLabel {
+    position: relative;
+    top: -800px;
+    left: 850px;
+    font-size: 120%;
+}
+
+#rosterLabel2 {
+    position: relative;
+    top: -800px;
+    left: 850px;
+    font-size: 120%;
+}
+
+#js_scatterplot {
+    position: absolute;
+    top: 200px;
+    left: 350px;
+}
