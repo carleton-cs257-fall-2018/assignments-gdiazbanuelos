@@ -156,3 +156,17 @@ body {
     top: 200px;
     left: 350px;
 }
+
+#radiantRax {
+    position: relative;
+    top: -1400px;
+    left: 20px;
+    font-size: 120%;
+}
+
+#direRax {
+    position: relative;
+    top: -1715px;
+    left: 1250px;
+    font-size: 120%;
+}
