@@ -13,8 +13,37 @@
         <p class="redcolor resize200">Welcome!</p>
         <div id="linechart_material" style="width: 900px; height: 500px; position: absolute; top: 230px; left: 350px"></div>
         <button id="generateButton" type="button">Generate!</button>
+        <script>function generate(){document.getElementById("linechart_material").drawCircle()}</script>
         <script type="text/javascript" src="static/buttonScript.js"></script>
         <select id="xAxisDropBox">
+<<<<<<< HEAD
+            <option value="1">Start Time</option>
+            <option value="2" selected>Game Duration</option>
+            <option value="3">Radiant Tower Health</option>
+            <option value="4">Dire Tower Health</option>
+            <option value="6">Radiant Barracks Health</option>
+            <option value="5">Dire Barracks Health</option>
+            <option value="14">Radiant Structure Health</option>
+            <option value="13">Dire Structure Health</option>
+            <option value="12">Combined Structure Health</option>
+            <option value="7">First Blood Time</option>
+            <option value="11">Positive Votes</option>
+            <option value="10">Negative Votes</option>
+        </select>
+        <select id="yAxisDropBox">
+            <option value="1">Start Time</option>
+            <option value="2">Game Duration</option>
+            <option value="3">Radiant Tower Health</option>
+            <option value="4">Dire Tower Health</option>
+            <option value="6">Radiant Barracks Health</option>
+            <option value="5">Dire Barracks Health</option>
+            <option value="14" selected>Radiant Structure Health</option>
+            <option value="13">Dire Structure Health</option>
+            <option value="12">Combined Structure Health</option>
+            <option value="7">First Blood Time</option>
+            <option value="11">Positive Votes</option>
+            <option value="10">Negative Votes</option>
+=======
             <option value="gameLength">Game Length</option>
             <option value="firstBloodTime">First Blood Time</option>
             <option value="strucutreHealth Radiant">Structure Health Radiant</option>
@@ -39,6 +68,7 @@
             <option value="# of Negative Reports">Negative Reports</option>
             <option value="# of Positive Reports">Positive Reports</option>
             <option value="Combined Structure Health">Combined Structure Health</option>
+>>>>>>> 29fa7ff212b2f54a1db25227720d612850b0e003
         </select>
         <p class="resize140" id="topRight">What is dota?<a href="http://perlman.mathcs.carleton.edu:5207/help">
             <br>

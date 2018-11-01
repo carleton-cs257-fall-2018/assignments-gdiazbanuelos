@@ -1,5 +1,6 @@
 function onButtonPress() {
-    alert('Hi from onButtonPress!');
+    document.getElementById('linechart_material').initialize();
+    alert("bleep");
 }
 
 function initialize() {
