@@ -17,6 +17,13 @@ import javafx.scene.shape.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+/**
+ *Controller.java
+ * The controller that takes keyboard inputs for Model.java
+ *
+ * @author Gustavo Diaz Banuelos
+ */
 public class Controller implements EventHandler<KeyEvent> {
     final private double FRAMES_PER_SECOND = 60.0;
 
@@ -27,7 +34,7 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private Label scoreLabel;
     @FXML private Label healthLabel;
 
-    // Images locations for the sprites
+    // Image locations for the sprites
     private Image southStance = new Image("/res/south.png");
     private Image northStance = new Image("/res/north.png");
     private Image eastStance = new Image("/res/east.png");
@@ -42,10 +49,16 @@ public class Controller implements EventHandler<KeyEvent> {
     private Model model;
     private Timer timer;
 
+    /**
+     * Initializes the Controller and creates the model
+     */
     public Controller() {
         model = new Model();
     }
 
+    /**
+     * Initializes the layout and properties of the gameBoard
+     */
     public void initialize() {
         this.link.setFill(new ImagePattern(this.southStance));
         this.model.setPaused(false);
@@ -57,6 +70,9 @@ public class Controller implements EventHandler<KeyEvent> {
         this.startTimer();
     }
 
+    /**
+     * Timer that calls updateAnimation based on the FRAMES_PER_SECOND var
+     */
     private void startTimer() {
         this.timer = new java.util.Timer();
         TimerTask timerTask = new TimerTask() {
@@ -77,6 +93,10 @@ public class Controller implements EventHandler<KeyEvent> {
 
     }
 
+    /**
+     * Listens to keyEvents and calls respective methods to the keys
+     * @param keyEvent
+     */
     @Override
     public void handle(KeyEvent keyEvent) {
         KeyCode code = keyEvent.getCode();
@@ -116,6 +136,10 @@ public class Controller implements EventHandler<KeyEvent> {
         }
     }
 
+    /**
+     * Pauses the game the pause button is pressed
+     * @param actionEvent
+     */
     public void onPauseButton(ActionEvent actionEvent) {
         if (this.model.isPaused()){
             this.pauseButton.setText("Pause");

@@ -9,6 +9,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * Main.java
+ * Main class for the zelda game. Initializes the window and nodes
+ */
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -33,7 +37,10 @@ public class Main extends Application {
         root.requestFocus();
     }
 
-
+    /**
+     * Launches the game
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
