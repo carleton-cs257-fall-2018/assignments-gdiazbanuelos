@@ -2,9 +2,9 @@ package zelda;
 
 import javafx.scene.shape.Rectangle;
 
-public class gameBoard extends Rectangle {
+public class GameBoard extends Rectangle {
     public enum CellValue {
-        EMPTY, LINK, ENEMY, SCRAPHEAP
+        EMPTY, LINK, ENEMY, SCRAPHEAP, ARROW;
     }
 
     private CellValue[][] cells;
@@ -22,7 +22,7 @@ public class gameBoard extends Rectangle {
      * @param link
      * @param enemy
      */
-    public gameBoard(int rowCount, int columnCount, player link, enemy enemy) {
+    public GameBoard(int rowCount, int columnCount, player link, Enemy enemy) {
         this.cells = new CellValue[rowCount][columnCount];
         this.columnCount = columnCount;
         this.rowCount = rowCount;
@@ -34,7 +34,7 @@ public class gameBoard extends Rectangle {
      * @param link
      * @param enemy
      */
-    private void initializeLevel(player link, enemy enemy) {
+    private void initializeLevel(player link, Enemy enemy) {
         // Empty all the cells
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {
@@ -44,19 +44,7 @@ public class gameBoard extends Rectangle {
 
         // Place the runner
         this.cells[link.getLinkRow()][link.getLinkCol()] = CellValue.LINK;
-        this.cells[enemy.getRow()][enemy.getCol()] = CellValue.SCRAPHEAP;
-
-        /*
-        // Place the enemy
-        this.dalekCount = this.numberOfDaleksForLevel(this.level);
-        for (int k = 0; k < this.dalekCount; k++) {
-            int row = random.nextInt(rowCount);
-            int column = random.nextInt(columnCount);
-            if (this.cells[row][column] == CellValue.EMPTY) {
-                this.cells[row][column] = CellValue.DALEK;
-            }
-        }
-        */
+        this.cells[enemy.getRow()][enemy.getCol()] = CellValue.ENEMY;
     }
 
     /**

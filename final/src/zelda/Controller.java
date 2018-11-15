@@ -17,15 +17,18 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static zelda.player.DIRECTION.SOUTH;
+
 
 /**
  *Controller.java
- * The controller that takes keyboard inputs for gameBoard.java
+ * The controller that takes keyboard inputs for GameBoard.java
  *
  * @author Gustavo Diaz Banuelos
  */
 public class Controller implements EventHandler<KeyEvent> {
-    final private double FRAMES_PER_SECOND = 15.0;
+    final private double FRAMES_PER_SECOND = 60.0;
+    final private double ENEMY_UPDATE_PER_SECOND = 10;
 
     @FXML private View zeldaView;
     @FXML private Button pauseButton;
@@ -34,11 +37,6 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private int rowCount  = 21;
     @FXML private int columnCount = 40;
 
-    // Image locations for the sprites
-    private Image southStance = new Image("/res/south.png");
-    private Image northStance = new Image("/res/north.png");
-    private Image eastStance = new Image("/res/east.png");
-    private Image westStance = new Image("/res/west.png");
     private Image attackWest = new Image("/res/arrowWest.png");
     private Image attackEast = new Image("/res/arrowEast.png");
     private Image attackNorth = new Image("/res/arrowNorth.png");
@@ -48,9 +46,10 @@ public class Controller implements EventHandler<KeyEvent> {
     private Image enemy_south = new Image("/res/enemy.png");
 
     private player link;
-    private enemy ganon;
-    private gameBoard gameBoard;
+    private Enemy ganon;
+    private GameBoard gameBoard;
     private Timer timer;
+    private Timer timer_two;
 
 
     public Controller() {
@@ -61,9 +60,9 @@ public class Controller implements EventHandler<KeyEvent> {
      */
     public void initialize() {
         // Instantiate the board and the player
-        link = new player(6,5, 6, southStance);
-        ganon = new enemy(10,10, 3, enemy_south);
-        gameBoard = new gameBoard(rowCount, columnCount, link, ganon);
+        link = new player(6,5, 6, player.DIRECTION.SOUTH);
+        ganon = new Enemy(10,10, 3, Enemy.DIRECTION.SOUTH);
+        gameBoard = new GameBoard(rowCount, columnCount, link, ganon);
 
         // Set the properties of the board and player
         this.gameBoard.setPaused(false);
@@ -71,6 +70,7 @@ public class Controller implements EventHandler<KeyEvent> {
         this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
         this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
         this.startTimer();
+        this.startEnemy_timer();
     }
 
     /**
@@ -92,12 +92,50 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     /**
-     * Updates the models based on the timer
-     * Generates a random movement for the enemy
-     * TO-DO: Implement better move alg
+     * Create the timer that calls the updateEnemy based timer setting
      */
-    private void updateAnimation() {
-        zeldaView.update(gameBoard, link, ganon);
+    private void startEnemy_timer() {
+        this.timer_two = new java.util.Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        updateEnemy();
+                    }
+                });
+            }
+        };
+        long frameTimeInMilliseconds = (long)(10000.0 / ENEMY_UPDATE_PER_SECOND);
+        this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
+    }
+
+    private void startArrow_timer() {
+        this.timer_two = new java.util.Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        updateArrow();
+                    }
+                });
+            }
+        };
+        long frameTimeInMilliseconds = (long)(10000.0 / FRAMES_PER_SECOND);
+        this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
+    }
+
+    private void updateArrow(){
+        this.link.attack(gameBoard);
+    }
+
+
+    /**
+     * Updates the enemy to move randomly
+     * The player and the enemy update on two different timers
+     * so that the enemy does not move extremely fast compared
+     * the player
+     */
+    private void updateEnemy(){
         Random random = new Random();
         int randomIntX = random.nextInt(1 + 1 + 1) - 1;
         int randomIntY = 0;
@@ -110,6 +148,15 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     /**
+     * Updates the models based on the timer
+     * Generates a random movement for the enemy
+     * TO-DO: Implement better move alg
+     */
+    private void updateAnimation() {
+        zeldaView.update(gameBoard, link, ganon);
+    }
+
+    /**
      * Listens for key events and updates the player model
      * @param keyEvent
      */
@@ -118,24 +165,26 @@ public class Controller implements EventHandler<KeyEvent> {
         KeyCode code = keyEvent.getCode();
         if (code == KeyCode.LEFT || code == KeyCode.A) {
             // move player left
-            this.link.setImg(westStance);
+
             this.link.moveLinkBy(0, -1, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
             // move player right
-            this.link.setImg(eastStance);
+            //this.link.setImg(eastStance);
             this.link.moveLinkBy(0, 1, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.UP || code == KeyCode.W) {
             // move player up
-            this.link.setImg(northStance);
+            //this.link.setImg(northStance);
             this.link.moveLinkBy(-1, 0, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.DOWN || code == KeyCode.S) {
             // move player up
-            this.link.setImg(southStance);
+            //this.link.setImg(southStance);
             this.link.moveLinkBy(1, 0, gameBoard);
             keyEvent.consume();
+        } else if(code == KeyCode.SPACE) {
+            startArrow_timer();
         }
     }
 

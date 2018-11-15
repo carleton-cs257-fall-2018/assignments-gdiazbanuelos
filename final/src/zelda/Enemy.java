@@ -3,25 +3,37 @@ package zelda;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
-public class enemy extends Rectangle {
+public class Enemy extends Rectangle {
 
     private int enemyRow;
     private int enemyCol;
     private int health;
     private Image stance;
+    private DIRECTION currentDir;
+
+    // Image locations for the sprites
+    private Image southStance = new Image("/res/south.png");
+    private Image northStance = new Image("/res/north.png");
+    private Image eastStance = new Image("/res/east.png");
+    private Image westStance = new Image("/res/west.png");
+
+    public enum DIRECTION {
+        NORTH, EAST, WEST, SOUTH;
+    }
 
     /**
      * Creates the enemy model with the param constraints
      * @param row
      * @param col
      * @param health
-     * @param initStance
+     * @param direction
      */
-    public enemy(int row, int col, int health, Image initStance){
+    public Enemy(int row, int col, int health, DIRECTION direction){
         this.enemyRow = row;
         this.enemyCol = col;
-        this.stance = initStance;
+        this.currentDir = direction;
         this.health = health;
+        setNewImage();
     }
 
     /**
@@ -97,15 +109,47 @@ public class enemy extends Rectangle {
     }
 
     /**
+     * Returns the current direction the model is facing
+     * @return
+     */
+    public DIRECTION getCurrentDir(){return this.currentDir;}
+
+    /**
+     * Sets the new image of the model depending on the direction it is facing
+     */
+    private void setNewImage(){
+        if(this.getCurrentDir() == DIRECTION.SOUTH){
+            this.stance = southStance;
+        } else if(this.getCurrentDir() == DIRECTION.NORTH){
+            this.stance = northStance;
+        } else if(this.getCurrentDir() == DIRECTION. EAST){
+            this.stance = eastStance;
+        } else{this.stance = westStance;}
+    }
+
+    /**
      * changes the row and col of the enemy model on the gameboard by the param values
      * @param rowChange
      * @param columnChange
      * @param gameBoard
      */
-    public void moveBy(int rowChange, int columnChange, gameBoard gameBoard) {
+    public void moveBy(int rowChange, int columnChange, GameBoard gameBoard) {
         if (gameBoard.isGameOver()) {
             return;
         }
+
+        if(rowChange != 0){
+            if (rowChange == 1){
+                this.currentDir = DIRECTION.SOUTH;
+            } else{this.currentDir = DIRECTION.NORTH;}
+
+        } else if(columnChange != 0){
+            if(columnChange == 1){
+                this.currentDir = DIRECTION.EAST;
+            } else{this.currentDir = DIRECTION.WEST;}
+        }
+
+        setNewImage();
 
         int newRow = this.enemyRow + rowChange;
         if (newRow < 0) {
@@ -123,12 +167,10 @@ public class enemy extends Rectangle {
             newColumn = gameBoard.getColumnCount() - 1;
         }
 
-
-        gameBoard.changeCell(this.getRow(), this.getCol(), zelda.gameBoard.CellValue.EMPTY);
+        gameBoard.changeCell(this.getRow(), this.getCol(), zelda.GameBoard.CellValue.EMPTY);
         this.enemyRow = newRow;
         this.enemyCol = newColumn;
-        gameBoard.changeCell(this.getRow(), this.getCol(), zelda.gameBoard.CellValue.ENEMY);
-        //this.moveDaleksToFollowRunner();
+        gameBoard.changeCell(this.getRow(), this.getCol(), zelda.GameBoard.CellValue.ENEMY);
     }
 
 }

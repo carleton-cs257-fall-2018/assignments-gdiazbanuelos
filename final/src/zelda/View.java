@@ -80,18 +80,20 @@ public class View extends Group {
      * @param link
      * @param enemy
      */
-    public void update(gameBoard gameBoard, player link, enemy enemy) {
+    public void update(GameBoard gameBoard, player link, Enemy enemy) {
         assert gameBoard.getRowCount() == this.rowCount && gameBoard.getColumnCount() == this.columnCount;
         for (int row = 0; row < this.rowCount; row++) {
             for (int column = 0; column < this.columnCount; column++) {
-                gameBoard.CellValue cellValue = gameBoard.getCellValue(row, column);
-                if (cellValue == zelda.gameBoard.CellValue.ENEMY) {
+                GameBoard.CellValue cellValue = gameBoard.getCellValue(row, column);
+                if (cellValue == zelda.GameBoard.CellValue.ENEMY) {
                     this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
                     //this.cellViews[row][column].setFill(Color.RED);
-                } else if (cellValue == zelda.gameBoard.CellValue.SCRAPHEAP) {
+                } else if (cellValue == zelda.GameBoard.CellValue.SCRAPHEAP) {
                     this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
                     //this.cellViews[row][column].setFill(Color.BLUE);
-                } else if (cellValue == zelda.gameBoard.CellValue.LINK) {
+                } else if (cellValue == zelda.GameBoard.CellValue.ARROW) {
+                  this.cellViews[row][column].setFill(Color.GREEN);
+                } else if (cellValue == zelda.GameBoard.CellValue.LINK) {
                     this.cellViews[row][column].setFill(new ImagePattern(link.getStance()));
                 } else {
                     this.cellViews[row][column].setFill(Color.WHITE);
