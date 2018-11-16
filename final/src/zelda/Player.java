@@ -12,7 +12,7 @@ public class Player extends Rectangle {
     private int health;
     private Image stance;
     private DIRECTION currentDir;
-    private Arrow arrow;
+    private boolean canAttack;
 
     // Image locations for the sprites
     private Image southStance = new Image("/res/south.png");
@@ -37,6 +37,7 @@ public class Player extends Rectangle {
         this.linkCol = col;
         this.health = health;
         this.currentDir = direction;
+        this.canAttack = true;
         setNewImage();
     }
 
@@ -109,6 +110,14 @@ public class Player extends Rectangle {
      * @return
      */
     public DIRECTION getCurrentDir(){return this.currentDir;}
+
+    public boolean getCanAttack(){
+        return this.canAttack;
+    }
+
+    public void setCanAttack(boolean canAttack){
+        this.canAttack = canAttack;
+    }
 
     /**
      * Sets the new image of the model depending on the direction it is facing

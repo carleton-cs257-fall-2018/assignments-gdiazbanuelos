@@ -72,6 +72,7 @@ public class Controller implements EventHandler<KeyEvent> {
         this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
         this.startTimer();
         this.startEnemy_timer();
+        startArrow_timer();
     }
 
     /**
@@ -127,7 +128,7 @@ public class Controller implements EventHandler<KeyEvent> {
 
     private void updateArrow(){
         if(this.arrow.isDelete() != true){
-            this.arrow.moveBy(gameBoard);
+            this.arrow.moveBy(gameBoard, this.link);
         } else {
             this.arrow.stopMovement();
         }
@@ -189,8 +190,10 @@ public class Controller implements EventHandler<KeyEvent> {
             this.link.moveLinkBy(1, 0, gameBoard);
             keyEvent.consume();
         } else if(code == KeyCode.SPACE) {
-            arrow = new Arrow(this.link);
-            startArrow_timer();
+            if(this.link.getCanAttack() != false) {
+                arrow = new Arrow(this.link);
+                this.link.setCanAttack(false);
+            }
             keyEvent.consume();
         }
     }

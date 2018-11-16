@@ -73,11 +73,13 @@ public class Arrow extends Rectangle {
         } else{this.stance = this.westStance;}
     }
 
-    public void moveBy(GameBoard gameBoard){
-        if(this.arrowRow >= 19 || this.arrowRow <= 1){
+    public void moveBy(GameBoard gameBoard, Player link){
+        if(this.arrowRow >= 20 || this.arrowRow <= 0){
             this.delete = true;
-        } else if(this.arrowCol <= 1 || this.arrowCol >= 32 ){
+            link.setCanAttack(true);
+        } else if(this.arrowCol <= 0 || this.arrowCol >= 34 ){
             this.delete = true;
+            link.setCanAttack(true);
         }
         gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(),  GameBoard.CellValue.EMPTY);
         this.arrowRow = this.getArrowRow() + this.vel_y;
