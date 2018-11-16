@@ -22,7 +22,7 @@ public class GameBoard extends Rectangle {
      * @param link
      * @param enemy
      */
-    public GameBoard(int rowCount, int columnCount, player link, Enemy enemy) {
+    public GameBoard(int rowCount, int columnCount, Player link, Enemy enemy) {
         this.cells = new CellValue[rowCount][columnCount];
         this.columnCount = columnCount;
         this.rowCount = rowCount;
@@ -34,7 +34,7 @@ public class GameBoard extends Rectangle {
      * @param link
      * @param enemy
      */
-    private void initializeLevel(player link, Enemy enemy) {
+    private void initializeLevel(Player link, Enemy enemy) {
         // Empty all the cells
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {

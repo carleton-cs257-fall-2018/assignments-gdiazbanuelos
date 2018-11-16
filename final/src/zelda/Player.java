@@ -3,15 +3,16 @@ package zelda;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
-import static zelda.player.DIRECTION.SOUTH;
+import static zelda.Player.DIRECTION.SOUTH;
 
-public class player extends Rectangle {
+public class Player extends Rectangle {
 
     private int linkRow;
     private int linkCol;
     private int health;
     private Image stance;
     private DIRECTION currentDir;
+    private Arrow arrow;
 
     // Image locations for the sprites
     private Image southStance = new Image("/res/south.png");
@@ -31,7 +32,7 @@ public class player extends Rectangle {
      * @param health
      * @param direction
      */
-    public player(int row, int col, int health, DIRECTION direction){
+    public Player(int row, int col, int health, DIRECTION direction){
         this.linkRow = row;
         this.linkCol = col;
         this.health = health;
@@ -166,10 +167,6 @@ public class player extends Rectangle {
         this.linkRow = newRow;
         this.linkCol = newColumn;
         gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.LINK);
-    }
-
-    public void attack(GameBoard gameBoard){
-        gameBoard.changeCell(this.getLinkRow() - 1, this.getLinkCol(), zelda.GameBoard.CellValue.ARROW);
     }
 
 }

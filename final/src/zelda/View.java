@@ -80,7 +80,7 @@ public class View extends Group {
      * @param link
      * @param enemy
      */
-    public void update(GameBoard gameBoard, player link, Enemy enemy) {
+    public void update(GameBoard gameBoard, Player link, Enemy enemy, Arrow arrow) {
         assert gameBoard.getRowCount() == this.rowCount && gameBoard.getColumnCount() == this.columnCount;
         for (int row = 0; row < this.rowCount; row++) {
             for (int column = 0; column < this.columnCount; column++) {
@@ -92,11 +92,11 @@ public class View extends Group {
                     this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
                     //this.cellViews[row][column].setFill(Color.BLUE);
                 } else if (cellValue == zelda.GameBoard.CellValue.ARROW) {
-                  this.cellViews[row][column].setFill(Color.GREEN);
+                    this.cellViews[row][column].setFill(new ImagePattern(arrow.getStance()));
                 } else if (cellValue == zelda.GameBoard.CellValue.LINK) {
                     this.cellViews[row][column].setFill(new ImagePattern(link.getStance()));
                 } else {
-                    this.cellViews[row][column].setFill(Color.WHITE);
+                    this.cellViews[row][column].setFill(Color.TRANSPARENT);
                 }
             }
         }

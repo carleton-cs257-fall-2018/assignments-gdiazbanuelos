@@ -12,10 +12,10 @@ public class Enemy extends Rectangle {
     private DIRECTION currentDir;
 
     // Image locations for the sprites
-    private Image southStance = new Image("/res/south.png");
-    private Image northStance = new Image("/res/north.png");
-    private Image eastStance = new Image("/res/east.png");
-    private Image westStance = new Image("/res/west.png");
+    private Image southStance = new Image("/res/southEnemy.png");
+    private Image northStance = new Image("/res/northEnemy.png");
+    private Image eastStance = new Image("/res/eastEnemy.png");
+    private Image westStance = new Image("/res/westEnemy.png");
 
     public enum DIRECTION {
         NORTH, EAST, WEST, SOUTH;

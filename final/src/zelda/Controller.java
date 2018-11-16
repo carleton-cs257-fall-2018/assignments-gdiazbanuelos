@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static zelda.player.DIRECTION.SOUTH;
+import static zelda.Player.DIRECTION.SOUTH;
 
 
 /**
@@ -29,6 +29,7 @@ import static zelda.player.DIRECTION.SOUTH;
 public class Controller implements EventHandler<KeyEvent> {
     final private double FRAMES_PER_SECOND = 60.0;
     final private double ENEMY_UPDATE_PER_SECOND = 10;
+    final private double ARROW_UPDATE_PER_SECOND = 60;
 
     @FXML private View zeldaView;
     @FXML private Button pauseButton;
@@ -43,10 +44,10 @@ public class Controller implements EventHandler<KeyEvent> {
     private Image attackSouth = new Image("/res/arrowSouth.png");
     private Image chest = new Image("/res/chest.png");
     private Image chest_open = new Image("/res/chest_open.png");
-    private Image enemy_south = new Image("/res/enemy.png");
 
-    private player link;
+    private Player link;
     private Enemy ganon;
+    private Arrow arrow;
     private GameBoard gameBoard;
     private Timer timer;
     private Timer timer_two;
@@ -60,7 +61,7 @@ public class Controller implements EventHandler<KeyEvent> {
      */
     public void initialize() {
         // Instantiate the board and the player
-        link = new player(6,5, 6, player.DIRECTION.SOUTH);
+        link = new Player(6,5, 6, Player.DIRECTION.SOUTH);
         ganon = new Enemy(10,10, 3, Enemy.DIRECTION.SOUTH);
         gameBoard = new GameBoard(rowCount, columnCount, link, ganon);
 
@@ -105,7 +106,7 @@ public class Controller implements EventHandler<KeyEvent> {
                 });
             }
         };
-        long frameTimeInMilliseconds = (long)(10000.0 / ENEMY_UPDATE_PER_SECOND);
+        long frameTimeInMilliseconds = (long)(8000.0 / ENEMY_UPDATE_PER_SECOND);
         this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
@@ -120,12 +121,16 @@ public class Controller implements EventHandler<KeyEvent> {
                 });
             }
         };
-        long frameTimeInMilliseconds = (long)(10000.0 / FRAMES_PER_SECOND);
+        long frameTimeInMilliseconds = (long)(8000.0 / ARROW_UPDATE_PER_SECOND);
         this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
     private void updateArrow(){
-        this.link.attack(gameBoard);
+        if(this.arrow.isDelete() != true){
+            this.arrow.moveBy(gameBoard);
+        } else {
+            this.arrow.stopMovement();
+        }
     }
 
 
@@ -153,7 +158,7 @@ public class Controller implements EventHandler<KeyEvent> {
      * TO-DO: Implement better move alg
      */
     private void updateAnimation() {
-        zeldaView.update(gameBoard, link, ganon);
+        zeldaView.update(gameBoard, link, ganon, arrow);
     }
 
     /**
@@ -184,7 +189,9 @@ public class Controller implements EventHandler<KeyEvent> {
             this.link.moveLinkBy(1, 0, gameBoard);
             keyEvent.consume();
         } else if(code == KeyCode.SPACE) {
+            arrow = new Arrow(this.link);
             startArrow_timer();
+            keyEvent.consume();
         }
     }
 
