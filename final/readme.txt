@@ -15,8 +15,14 @@ MVC:
     control and can view the info about the current session.
 
 Clore Classes:
-    Model.java
+    Models:
+        Arrow.java
+        Enemy.java
+        GameBoard.java
+        Player.java
+
     Controller.java
+    View.java
     Main.java
 
 Extra:
