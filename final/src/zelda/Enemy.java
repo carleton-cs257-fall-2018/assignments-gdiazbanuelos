@@ -10,6 +10,7 @@ public class Enemy extends Rectangle {
     private int health;
     private Image stance;
     private DIRECTION currentDir;
+    private boolean delete;
 
     // Image locations for the sprites
     private Image southStance = new Image("/res/southEnemy.png");
@@ -25,10 +26,9 @@ public class Enemy extends Rectangle {
      * Creates the enemy model with the param constraints
      * @param row
      * @param col
-     * @param health
      * @param direction
      */
-    public Enemy(int row, int col, int health, DIRECTION direction){
+    public Enemy(int row, int col, DIRECTION direction){
         this.enemyRow = row;
         this.enemyCol = col;
         this.currentDir = direction;
@@ -113,6 +113,14 @@ public class Enemy extends Rectangle {
      * @return
      */
     public DIRECTION getCurrentDir(){return this.currentDir;}
+
+    public boolean isDelete(){
+        return this.delete;
+    }
+
+    public void setDelete(boolean isDelete){
+        this.delete = isDelete;
+    }
 
     /**
      * Sets the new image of the model depending on the direction it is facing

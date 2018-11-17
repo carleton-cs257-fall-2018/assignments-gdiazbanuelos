@@ -58,10 +58,15 @@ public class Arrow extends Rectangle {
         return this.delete;
     }
 
+    public void changeDelete(boolean delete){
+        this.delete = delete;
+    }
+
     public void stopMovement(){
         this.vel_y = 0;
         this.vel_x = 0;
     }
+
 
     private void setNewImage(){
         if(this.getCurrentDir() == Player.DIRECTION.SOUTH){
@@ -73,7 +78,7 @@ public class Arrow extends Rectangle {
         } else{this.stance = this.westStance;}
     }
 
-    public void moveBy(GameBoard gameBoard, Player link){
+    public void moveBy(GameBoard gameBoard, Player link, Enemy goblin){
         if(this.arrowRow >= 20 || this.arrowRow <= 0){
             this.delete = true;
             link.setCanAttack(true);
@@ -84,6 +89,13 @@ public class Arrow extends Rectangle {
         gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(),  GameBoard.CellValue.EMPTY);
         this.arrowRow = this.getArrowRow() + this.vel_y;
         this.arrowCol = this.getArrowCol() + this.vel_x;
-        gameBoard.changeCell(this.getArrowRow(),this.getArrowCol(), zelda.GameBoard.CellValue.ARROW);
+        if(gameBoard.getCellValue(this.arrowRow, this.arrowCol) == zelda.GameBoard.CellValue.ENEMY){
+            goblin.setDelete(true);
+            this.changeDelete(true);
+            gameBoard.addScore(1);
+            gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(), GameBoard.CellValue.EMPTY);
+        } else {
+            gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(), zelda.GameBoard.CellValue.ARROW);
+        }
     }
 }

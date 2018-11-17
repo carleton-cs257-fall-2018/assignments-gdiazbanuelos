@@ -38,19 +38,16 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private int rowCount  = 21;
     @FXML private int columnCount = 40;
 
-    private Image attackWest = new Image("/res/arrowWest.png");
-    private Image attackEast = new Image("/res/arrowEast.png");
-    private Image attackNorth = new Image("/res/arrowNorth.png");
-    private Image attackSouth = new Image("/res/arrowSouth.png");
     private Image chest = new Image("/res/chest.png");
     private Image chest_open = new Image("/res/chest_open.png");
 
     private Player link;
-    private Enemy ganon;
+    private Enemy goblin;
     private Arrow arrow;
     private GameBoard gameBoard;
     private Timer timer;
     private Timer timer_two;
+    private Timer timer_three;
 
 
     public Controller() {
@@ -62,8 +59,8 @@ public class Controller implements EventHandler<KeyEvent> {
     public void initialize() {
         // Instantiate the board and the player
         link = new Player(6,5, 6, Player.DIRECTION.SOUTH);
-        ganon = new Enemy(10,10, 3, Enemy.DIRECTION.SOUTH);
-        gameBoard = new GameBoard(rowCount, columnCount, link, ganon);
+        goblin = new Enemy(12,12, Enemy.DIRECTION.SOUTH);
+        gameBoard = new GameBoard(rowCount, columnCount, link, goblin);
 
         // Set the properties of the board and player
         this.gameBoard.setPaused(false);
@@ -112,7 +109,7 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     private void startArrow_timer() {
-        this.timer_two = new java.util.Timer();
+        this.timer_three = new java.util.Timer();
         TimerTask timerTask = new TimerTask() {
             public void run() {
                 Platform.runLater(new Runnable() {
@@ -128,9 +125,9 @@ public class Controller implements EventHandler<KeyEvent> {
 
     private void updateArrow(){
         if(this.arrow.isDelete() != true){
-            this.arrow.moveBy(gameBoard, this.link);
+            this.arrow.moveBy(gameBoard, this.link, this.goblin);
         } else {
-            this.arrow.stopMovement();
+            this.link.setCanAttack(true);
         }
     }
 
@@ -142,15 +139,17 @@ public class Controller implements EventHandler<KeyEvent> {
      * the player
      */
     private void updateEnemy(){
-        Random random = new Random();
-        int randomIntX = random.nextInt(1 + 1 + 1) - 1;
-        int randomIntY = 0;
-        if(randomIntX != 0){
-            randomIntY = 0;
-        } else{
-            randomIntY = random.nextInt(1 + 1 + 1) - 1;
+        if(this.goblin.isDelete() != true) {
+            Random random = new Random();
+            int randomIntX = random.nextInt(1 + 1 + 1) - 1;
+            int randomIntY = 0;
+            if (randomIntX != 0) {
+                randomIntY = 0;
+            } else {
+                randomIntY = random.nextInt(1 + 1 + 1) - 1;
+            }
+            goblin.moveBy(randomIntX, randomIntY, gameBoard);
         }
-        ganon.moveBy(randomIntX, randomIntY, gameBoard);
     }
 
     /**
@@ -159,7 +158,9 @@ public class Controller implements EventHandler<KeyEvent> {
      * TO-DO: Implement better move alg
      */
     private void updateAnimation() {
-        zeldaView.update(gameBoard, link, ganon, arrow);
+        zeldaView.update(gameBoard, link, goblin, arrow);
+        this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
+        this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
     }
 
     /**
@@ -171,7 +172,6 @@ public class Controller implements EventHandler<KeyEvent> {
         KeyCode code = keyEvent.getCode();
         if (code == KeyCode.LEFT || code == KeyCode.A) {
             // move player left
-
             this.link.moveLinkBy(0, -1, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
@@ -195,8 +195,19 @@ public class Controller implements EventHandler<KeyEvent> {
                 this.link.setCanAttack(false);
             }
             keyEvent.consume();
+        } else if(code == KeyCode.G){
+            newGame();
         }
     }
+
+    public void newGame(){
+        this.timer.cancel();
+        this.timer_two.cancel();
+        this.timer_three.cancel();
+        this.arrow = null;
+        initialize();
+    }
+
 
     /**
      * Pauses the game on button click

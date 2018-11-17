@@ -28,7 +28,7 @@ public class Main extends Application {
         Parent root = (Parent)loader.load();
         Controller controller = loader.getController();
 
-        primaryStage.setTitle("Kinda Zelda");
+        primaryStage.setTitle("Not a Zelda clone");
         Scene scene = new Scene(root, 700, 500);
         primaryStage.setScene(scene);
         scene.setOnKeyPressed(controller);

@@ -14,6 +14,8 @@ public class GameBoard extends Rectangle {
     private boolean paused;
     private int rowCount;
     private int columnCount;
+    private int number_of_goblins;
+    private int level;
 
     /**
      * Creates gameboard model and sets the col and row counts and adds the player and enemy
