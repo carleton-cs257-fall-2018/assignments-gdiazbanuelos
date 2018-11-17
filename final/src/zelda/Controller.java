@@ -29,7 +29,6 @@ import static zelda.Player.DIRECTION.SOUTH;
 public class Controller implements EventHandler<KeyEvent> {
     final private double FRAMES_PER_SECOND = 60.0;
     final private double ENEMY_UPDATE_PER_SECOND = 10;
-    final private double ARROW_UPDATE_PER_SECOND = 60;
 
     @FXML private View zeldaView;
     @FXML private Button pauseButton;
@@ -38,8 +37,6 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private int rowCount  = 21;
     @FXML private int columnCount = 40;
 
-    private Image chest = new Image("/res/chest.png");
-    private Image chest_open = new Image("/res/chest_open.png");
 
     private Player link;
     private Enemy goblin;
@@ -47,8 +44,6 @@ public class Controller implements EventHandler<KeyEvent> {
     private GameBoard gameBoard;
     private Timer timer;
     private Timer timer_two;
-    private Timer timer_three;
-
 
     public Controller() {
     }
@@ -69,7 +64,6 @@ public class Controller implements EventHandler<KeyEvent> {
         this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
         this.startTimer();
         this.startEnemy_timer();
-        startArrow_timer();
     }
 
     /**
@@ -82,6 +76,7 @@ public class Controller implements EventHandler<KeyEvent> {
                 Platform.runLater(new Runnable() {
                     public void run() {
                         updateAnimation();
+                        updateArrow();
                     }
                 });
             }
@@ -108,20 +103,6 @@ public class Controller implements EventHandler<KeyEvent> {
         this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
-    private void startArrow_timer() {
-        this.timer_three = new java.util.Timer();
-        TimerTask timerTask = new TimerTask() {
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        updateArrow();
-                    }
-                });
-            }
-        };
-        long frameTimeInMilliseconds = (long)(8000.0 / ARROW_UPDATE_PER_SECOND);
-        this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
-    }
 
     private void updateArrow(){
         if(this.arrow.isDelete() != true){
@@ -203,11 +184,9 @@ public class Controller implements EventHandler<KeyEvent> {
     public void newGame(){
         this.timer.cancel();
         this.timer_two.cancel();
-        this.timer_three.cancel();
         this.arrow = null;
         initialize();
     }
-
 
     /**
      * Pauses the game on button click
