@@ -58,38 +58,6 @@ public class Player extends Rectangle {
     }
 
     /**
-     * sets the player row to the param
-     * @param row
-     */
-    public void setLinkRow(int row){
-        this.linkRow = row;
-    }
-
-    /**
-     * sets the player col to the param
-     * @param col
-     */
-    public void setLinkCol(int col){
-        this.linkCol = col;
-    }
-
-    /**
-     * sets thje player health to the param
-     * @param newHealth
-     */
-    public void setHealth(int newHealth){
-        this.health = newHealth;
-    }
-
-    /**
-     * adds the param to the current player health
-     * @param add
-     */
-    public void addHealth(int add){
-        this.health += add;
-    }
-
-    /**
      * returns the current health of the player
      * @return
      */

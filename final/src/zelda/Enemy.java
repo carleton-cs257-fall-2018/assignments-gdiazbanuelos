@@ -53,54 +53,6 @@ public class Enemy extends Rectangle {
     }
 
     /**
-     * sets the enemy row to the param
-     * @param row
-     */
-    public void setEnemyRow(int row){
-        this.enemyRow = row;
-    }
-
-    /**
-     * set the enemy col to the param
-     * @param col
-     */
-    public void setEnemyCol(int col){
-        this.enemyCol = col;
-    }
-
-    /**
-     * sets the enemy health to the param
-     * @param newHealth
-     */
-    public void setHealth(int newHealth){
-        this.health = newHealth;
-    }
-
-    /**
-     * adds the param to the current enemy health
-     * @param add
-     */
-    public void addHealth(int add){
-        this.health += add;
-    }
-
-    /**
-     * returns the current health of the enemy model
-     * @return
-     */
-    public int getHealth(){
-        return this.health;
-    }
-
-    /**
-     * sets the image of enemy to the param image
-     * @param img
-     */
-    public void setImg(Image img){
-        this.stance = img;
-    }
-
-    /**
      * retuns the current image of the enemy model
      * @return
      */

@@ -8,11 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -161,27 +157,29 @@ public class Controller implements EventHandler<KeyEvent> {
             keyEvent.consume();
         } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
             // move player right
-            //this.link.setImg(eastStance);
             this.link.moveLinkBy(0, 1, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.UP || code == KeyCode.W) {
             // move player up
-            //this.link.setImg(northStance);
             this.link.moveLinkBy(-1, 0, gameBoard);
             keyEvent.consume();
         } else if (code == KeyCode.DOWN || code == KeyCode.S) {
             // move player up
-            //this.link.setImg(southStance);
             this.link.moveLinkBy(1, 0, gameBoard);
             keyEvent.consume();
         } else if(code == KeyCode.SPACE) {
             if(this.link.getCanAttack() != false) {
                 arrow = new Arrow(this.link);
+                startArrowSound();
                 this.link.setCanAttack(false);
             }
             keyEvent.consume();
         } else if(code == KeyCode.G){
             newGame();
+            keyEvent.consume();
+        } else if(code == KeyCode.P){
+            onPauseButton();
+            keyEvent.consume();
         }
     }
 
@@ -189,9 +187,7 @@ public class Controller implements EventHandler<KeyEvent> {
         this.timer.cancel();
         this.timer_two.cancel();
         this.arrow = null;
-        if(this.clip != null){
-            endSong();
-        }
+        this.clip.stop();
         initialize();
     }
 
@@ -200,30 +196,35 @@ public class Controller implements EventHandler<KeyEvent> {
         try
         {
             this.clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(new File(song)));
-            clip.start();
+            this.clip.open(AudioSystem.getAudioInputStream(new File(song)));
+            this.clip.start();
         }
-        catch (Exception exc)
-        {
-            exc.printStackTrace(System.out);
-        }
+        catch (Exception exc) {}
     }
 
-    public void endSong(){
-        this.clip.stop();
+    public void startArrowSound(){
+        String song = "./src/res/arrowsound.wav";
+        Clip arrowsound;
+        try
+        {
+            arrowsound = AudioSystem.getClip();
+            arrowsound.open(AudioSystem.getAudioInputStream(new File(song)));
+            arrowsound.start();
+        }
+        catch (Exception exc) {}
     }
+
 
     /**
-     * Pauses the game on button click
-     * @param actionEvent
+     * Pauses the game on button press
      */
-    public void onPauseButton(ActionEvent actionEvent) {
+    public void onPauseButton() {
         if (this.gameBoard.isPaused()){
-            this.pauseButton.setText("Pause");
             this.startTimer();
+            this.startEnemy_timer();
         } else {
-            this.pauseButton.setText("Continue");
             this.timer.cancel();
+            this.timer_two.cancel();
         }
         this.gameBoard.setPaused(!this.gameBoard.isPaused());
     }

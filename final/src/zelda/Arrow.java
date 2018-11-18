@@ -3,6 +3,10 @@ package zelda;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
+
 public class Arrow extends Rectangle {
 
     private int arrowRow;
@@ -62,10 +66,6 @@ public class Arrow extends Rectangle {
         this.delete = delete;
     }
 
-    public void stopMovement(){
-        this.vel_y = 0;
-        this.vel_x = 0;
-    }
 
 
     private void setNewImage(){
@@ -91,11 +91,26 @@ public class Arrow extends Rectangle {
         this.arrowCol = this.getArrowCol() + this.vel_x;
         if(gameBoard.getCellValue(this.arrowRow, this.arrowCol) == zelda.GameBoard.CellValue.ENEMY){
             goblin.setDelete(true);
+            playHitSound();
             this.changeDelete(true);
             gameBoard.addScore(1);
             gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(), GameBoard.CellValue.EMPTY);
         } else {
             gameBoard.changeCell(this.getArrowRow(), this.getArrowCol(), zelda.GameBoard.CellValue.ARROW);
         }
+    }
+
+    public void playHitSound(){
+        String song = "./src/res/kill.wav";
+        Clip clip;
+        try
+        {
+            clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File(song)));
+            clip.start();
+        }
+        catch (Exception exc) {}
+
+
     }
 }

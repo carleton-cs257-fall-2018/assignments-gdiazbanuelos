@@ -76,22 +76,6 @@ public class GameBoard extends Rectangle {
     }
 
     /**
-     * sets the number of row counts
-     * @param rowCount
-     */
-    public void setrowCount(int rowCount){
-        this.rowCount = rowCount;
-    }
-
-    /**
-     * sets the number of column
-     * @param columnCount
-     */
-    public void setColumnCount(int columnCount){
-        this.columnCount = columnCount;
-    }
-
-    /**
      * returns the current score
      * @return
      */
@@ -147,13 +131,6 @@ public class GameBoard extends Rectangle {
         this.paused = setPause;
     }
 
-    /**
-     * returns the cells data of the game board
-     * @return
-     */
-    public CellValue[][] getCells(){
-        return this.cells;
-    }
 
     /**
      * changes cell values of the game board

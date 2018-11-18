@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Label?>
 <?import zelda.View?>
+<?import javafx.scene.control.Button?>
 <BorderPane fx:controller="zelda.Controller" xmlns:fx="http://javafx.com/fxml">
     <top>
         <BorderPane prefHeight="35" style="-fx-background-color: #34d1ae; -fx-padding: 10px, 5px, 10px, 5px" >
@@ -18,7 +19,7 @@
     <bottom>
         <HBox prefHeight="35" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #e8421f">
             <Label style="-fx-font-size: 140%; -fx-text-fill: white"
-                   text="Move: WASD | Attack: SPACE | New game: G" />
+                   text="Move: WASD | Attack: SPACE | Pause: P | New game: G" />
         </HBox>
     </bottom>
 </BorderPane>
