@@ -2,7 +2,6 @@ package zelda;
 
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;

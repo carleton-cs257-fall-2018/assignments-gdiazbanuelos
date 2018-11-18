@@ -1,10 +1,8 @@
 package zelda;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -13,7 +11,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.sound.sampled.*;
-
 
 
 /**
@@ -27,12 +24,10 @@ public class Controller implements EventHandler<KeyEvent> {
     final private double ENEMY_UPDATE_PER_SECOND = 10;
 
     @FXML private View zeldaView;
-    @FXML private Button pauseButton;
     @FXML private Label scoreLabel;
     @FXML private Label healthLabel;
     @FXML private int rowCount  = 21;
     @FXML private int columnCount = 40;
-
 
     private Player link;
     private Enemy goblin;
@@ -56,6 +51,7 @@ public class Controller implements EventHandler<KeyEvent> {
 
         // Set the properties of the board and player
         this.gameBoard.setPaused(false);
+        this.gameBoard.setGameOver(false);
         this.gameBoard.setScore(0);
         this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
         this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
@@ -103,7 +99,6 @@ public class Controller implements EventHandler<KeyEvent> {
         this.timer_two.schedule(timerTask, 0, frameTimeInMilliseconds);
     }
 
-
     private void updateArrow(){
         if(this.arrow.isDelete() != true){
             this.arrow.moveBy(gameBoard, this.link, this.goblin);
@@ -111,7 +106,6 @@ public class Controller implements EventHandler<KeyEvent> {
             this.link.setCanAttack(true);
         }
     }
-
 
     /**
      * Updates the enemy to move randomly
@@ -213,7 +207,6 @@ public class Controller implements EventHandler<KeyEvent> {
         }
         catch (Exception exc) {}
     }
-
 
     /**
      * Pauses the game on button press

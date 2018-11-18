@@ -3,7 +3,6 @@ package zelda;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
-import static zelda.Player.DIRECTION.SOUTH;
 
 public class Player extends Rectangle {
 
@@ -136,8 +135,8 @@ public class Player extends Rectangle {
         if (newColumn < 0) {
             newColumn = 0;
         }
-        if (newColumn >= gameBoard.getColumnCount()) {
-            newColumn = gameBoard.getColumnCount() - 1;
+        if (newColumn >= gameBoard.getColumnCount() - 6) {
+            newColumn = gameBoard.getColumnCount() - 6;
         }
 
         gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.EMPTY);

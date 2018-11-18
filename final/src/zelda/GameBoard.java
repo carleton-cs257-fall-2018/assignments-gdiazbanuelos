@@ -130,7 +130,7 @@ public class GameBoard extends Rectangle {
     public void setPaused(boolean setPause){
         this.paused = setPause;
     }
-    
+
     /**
      * changes cell values of the game board
      * @param row
