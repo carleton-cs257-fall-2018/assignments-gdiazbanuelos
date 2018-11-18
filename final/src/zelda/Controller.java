@@ -6,18 +6,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.sound.sampled.*;
 
-import static zelda.Player.DIRECTION.SOUTH;
 
 
 /**
@@ -44,6 +44,7 @@ public class Controller implements EventHandler<KeyEvent> {
     private GameBoard gameBoard;
     private Timer timer;
     private Timer timer_two;
+    private Clip clip;
 
     public Controller() {
     }
@@ -64,6 +65,7 @@ public class Controller implements EventHandler<KeyEvent> {
         this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
         this.startTimer();
         this.startEnemy_timer();
+        startSong();
     }
 
     /**
@@ -76,7 +78,9 @@ public class Controller implements EventHandler<KeyEvent> {
                 Platform.runLater(new Runnable() {
                     public void run() {
                         updateAnimation();
-                        updateArrow();
+                        if(arrow != null){
+                            updateArrow();
+                        }
                     }
                 });
             }
@@ -185,7 +189,28 @@ public class Controller implements EventHandler<KeyEvent> {
         this.timer.cancel();
         this.timer_two.cancel();
         this.arrow = null;
+        if(this.clip != null){
+            endSong();
+        }
         initialize();
+    }
+
+    public void startSong(){
+        String song = "./src/res/overworld.wav";
+        try
+        {
+            this.clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File(song)));
+            clip.start();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace(System.out);
+        }
+    }
+
+    public void endSong(){
+        this.clip.stop();
     }
 
     /**
