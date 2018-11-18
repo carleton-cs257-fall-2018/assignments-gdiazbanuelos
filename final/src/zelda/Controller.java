@@ -25,7 +25,7 @@ public class Controller implements EventHandler<KeyEvent> {
 
     @FXML private View zeldaView;
     @FXML private Label scoreLabel;
-    @FXML private Label healthLabel;
+    @FXML private Label deathLabel;
     @FXML private int rowCount  = 21;
     @FXML private int columnCount = 40;
 
@@ -45,7 +45,7 @@ public class Controller implements EventHandler<KeyEvent> {
      */
     public void initialize() {
         // Instantiate the board and the player
-        link = new Player(6,5, 6, Player.DIRECTION.SOUTH);
+        link = new Player(6,5, Player.DIRECTION.SOUTH);
         goblin = new Enemy(12,12, Enemy.DIRECTION.SOUTH);
         gameBoard = new GameBoard(rowCount, columnCount, link, goblin);
 
@@ -54,7 +54,6 @@ public class Controller implements EventHandler<KeyEvent> {
         this.gameBoard.setGameOver(false);
         this.gameBoard.setScore(0);
         this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
-        this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
         this.startTimer();
         this.startEnemy_timer();
         startSong();
@@ -123,7 +122,7 @@ public class Controller implements EventHandler<KeyEvent> {
             } else {
                 randomIntY = random.nextInt(1 + 1 + 1) - 1;
             }
-            goblin.moveBy(randomIntX, randomIntY, gameBoard);
+            goblin.moveBy(randomIntX, randomIntY, gameBoard, this.link);
         }
     }
 
@@ -133,9 +132,16 @@ public class Controller implements EventHandler<KeyEvent> {
      * TO-DO: Implement better move alg
      */
     private void updateAnimation() {
-        zeldaView.update(gameBoard, link, goblin, arrow);
-        this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
-        this.healthLabel.setText(String.format("Health: %d", this.link.getHealth()));
+        if(this.link.isGameOver() != true) {
+            zeldaView.update(gameBoard, link, goblin, arrow);
+            this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
+        } else{
+            zeldaView.update(gameBoard, link, goblin, arrow);
+            this.deathLabel.setText(String.format("GAME OVER"));
+            this.clip.stop();
+            this.link.playGameOverSound();
+            onPauseButton();
+        }
     }
 
     /**
@@ -166,6 +172,7 @@ public class Controller implements EventHandler<KeyEvent> {
                 arrow = new Arrow(this.link);
                 startArrowSound();
                 this.link.setCanAttack(false);
+                keyEvent.consume();
             }
             keyEvent.consume();
         } else if(code == KeyCode.G){
@@ -174,6 +181,8 @@ public class Controller implements EventHandler<KeyEvent> {
         } else if(code == KeyCode.P){
             onPauseButton();
             keyEvent.consume();
+        } else {
+            this.link.moveLinkBy(0, 0, gameBoard);
         }
     }
 
@@ -221,4 +230,7 @@ public class Controller implements EventHandler<KeyEvent> {
         }
         this.gameBoard.setPaused(!this.gameBoard.isPaused());
     }
+
+
+
 }

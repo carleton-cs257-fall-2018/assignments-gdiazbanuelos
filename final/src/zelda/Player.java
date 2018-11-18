@@ -3,15 +3,20 @@ package zelda;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
+
 
 public class Player extends Rectangle {
 
     private int linkRow;
     private int linkCol;
-    private int health;
     private Image stance;
     private DIRECTION currentDir;
     private boolean canAttack;
+    private boolean gameOver;
+    private Clip gameoverSound;
 
     // Image locations for the sprites
     private Image southStance = new Image("/res/south.png");
@@ -28,15 +33,14 @@ public class Player extends Rectangle {
      * Creates the player model with the param constraints
      * @param row
      * @param col
-     * @param health
      * @param direction
      */
-    public Player(int row, int col, int health, DIRECTION direction){
+    public Player(int row, int col, DIRECTION direction){
         this.linkRow = row;
         this.linkCol = col;
-        this.health = health;
         this.currentDir = direction;
         this.canAttack = true;
+        this.gameOver = false;
         setNewImage();
     }
 
@@ -54,14 +58,6 @@ public class Player extends Rectangle {
      */
     public int getLinkCol(){
         return this.linkCol;
-    }
-
-    /**
-     * returns the current health of the player
-     * @return
-     */
-    public int getHealth(){
-        return this.health;
     }
 
     /**
@@ -142,7 +138,35 @@ public class Player extends Rectangle {
         gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.EMPTY);
         this.linkRow = newRow;
         this.linkCol = newColumn;
-        gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.LINK);
+
+        if(gameBoard.getCellValue(this.getLinkRow(), this.getLinkCol()) == GameBoard.CellValue.ENEMY){
+            gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.SCRAPHEAP);
+            setGameOver();
+        } else {
+            gameBoard.changeCell(this.getLinkRow(), this.getLinkCol(), zelda.GameBoard.CellValue.LINK);
+        }
+    }
+
+    public boolean isGameOver(){
+        return this.gameOver;
+    }
+
+
+    public void setGameOver(){
+        this.gameOver = true;
+
+    }
+
+    public void playGameOverSound() {
+        String song = "./src/res/gameover.wav";
+        if (gameoverSound == null) {
+            try {
+                gameoverSound = AudioSystem.getClip();
+                gameoverSound.open(AudioSystem.getAudioInputStream(new File(song)));
+                gameoverSound.start();
+            } catch (Exception exc) {
+            }
+        }
     }
 
 }

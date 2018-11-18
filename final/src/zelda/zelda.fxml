@@ -7,7 +7,7 @@
     <top>
         <BorderPane prefHeight="35" style="-fx-background-color: #34d1ae; -fx-padding: 10px, 5px, 10px, 5px" >
             <left><Label fx:id="scoreLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></left>
-            <center><Label fx:id="healthLabel" style="-fx-font-size: 150%; -fx-text-fill: white"/></center>
+            <center><Label fx:id="deathLabel" style="-fx-font-size: 150%; -fx-text-fill: white"/></center>
         </BorderPane>
     </top>
 

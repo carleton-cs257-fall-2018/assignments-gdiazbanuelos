@@ -2,6 +2,7 @@ package zelda;
 
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -88,7 +89,7 @@ public class View extends Group {
                     this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
                     //this.cellViews[row][column].setFill(Color.RED);
                 } else if (cellValue == zelda.GameBoard.CellValue.SCRAPHEAP) {
-                    this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
+                    this.cellViews[row][column].setFill(new ImagePattern(new Image("/res/tomb.png")));
                     //this.cellViews[row][column].setFill(Color.BLUE);
                 } else if (cellValue == zelda.GameBoard.CellValue.ARROW) {
                     this.cellViews[row][column].setFill(new ImagePattern(arrow.getStance()));

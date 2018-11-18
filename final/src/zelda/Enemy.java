@@ -93,7 +93,7 @@ public class Enemy extends Rectangle {
      * @param columnChange
      * @param gameBoard
      */
-    public void moveBy(int rowChange, int columnChange, GameBoard gameBoard) {
+    public void moveBy(int rowChange, int columnChange, GameBoard gameBoard, Player link) {
         if (gameBoard.isGameOver()) {
             return;
         }
@@ -130,6 +130,11 @@ public class Enemy extends Rectangle {
         gameBoard.changeCell(this.getRow(), this.getCol(), zelda.GameBoard.CellValue.EMPTY);
         this.enemyRow = newRow;
         this.enemyCol = newColumn;
+
+        if(gameBoard.getCellValue(this.getRow(), this.getCol()) == GameBoard.CellValue.LINK){
+            gameBoard.changeCell(this.getRow(), this.getCol(), zelda.GameBoard.CellValue.SCRAPHEAP);
+            link.setGameOver();
+        }
         gameBoard.changeCell(this.getRow(), this.getCol(), zelda.GameBoard.CellValue.ENEMY);
     }
 
