@@ -1,22 +1,22 @@
+/**
+ * Enemy.java
+ * Gustavo Diaz, 2018
+ *
+ * The Enemy model for the "goblins"
+ *
+ */
+
 package zelda;
 
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 public class Enemy extends Rectangle {
 
     private int enemyRow;
     private int enemyCol;
-    private int health;
-    private Image stance;
     private DIRECTION currentDir;
     private boolean delete;
 
-    // Image locations for the sprites
-    private Image southStance = new Image("/res/southEnemy.png");
-    private Image northStance = new Image("/res/northEnemy.png");
-    private Image eastStance = new Image("/res/eastEnemy.png");
-    private Image westStance = new Image("/res/westEnemy.png");
 
     public enum DIRECTION {
         NORTH, EAST, WEST, SOUTH;
@@ -32,7 +32,6 @@ public class Enemy extends Rectangle {
         this.enemyRow = row;
         this.enemyCol = col;
         this.currentDir = direction;
-        setNewImage();
     }
 
     /**
@@ -52,45 +51,27 @@ public class Enemy extends Rectangle {
     }
 
     /**
-     * retuns the current image of the enemy model
+     * Returns if the enemy has been deleted as a boolean
      * @return
      */
-    public Image getStance(){
-        return this.stance;
-    }
-
-    /**
-     * Returns the current direction the model is facing
-     * @return
-     */
-    public DIRECTION getCurrentDir(){return this.currentDir;}
-
     public boolean isDelete(){
         return this.delete;
     }
 
+    /**
+     * Sets delete function to param input
+     * @param isDelete
+     */
     public void setDelete(boolean isDelete){
         this.delete = isDelete;
     }
 
     /**
-     * Sets the new image of the model depending on the direction it is facing
-     */
-    private void setNewImage(){
-        if(this.getCurrentDir() == DIRECTION.SOUTH){
-            this.stance = southStance;
-        } else if(this.getCurrentDir() == DIRECTION.NORTH){
-            this.stance = northStance;
-        } else if(this.getCurrentDir() == DIRECTION. EAST){
-            this.stance = eastStance;
-        } else{this.stance = westStance;}
-    }
-
-    /**
-     * changes the row and col of the enemy model on the gameboard by the param values
-     * @param rowChange
-     * @param columnChange
-     * @param gameBoard
+     * changes the row and col of the enemy model on the GameBoard by the param values
+     * @param rowChange movement is only in increments of positive or negative one
+     * @param columnChange movement is only in increments of positive or negative one
+     * @param gameBoard GameBoard is passed along to store and changes in position of the
+     *                  enemy model
      */
     public void moveBy(int rowChange, int columnChange, GameBoard gameBoard, Player link) {
         if (gameBoard.isGameOver()) {
@@ -107,8 +88,6 @@ public class Enemy extends Rectangle {
                 this.currentDir = DIRECTION.EAST;
             } else{this.currentDir = DIRECTION.WEST;}
         }
-
-        setNewImage();
 
         int newRow = this.enemyRow + rowChange;
         if (newRow < 0) {

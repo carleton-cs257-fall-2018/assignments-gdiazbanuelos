@@ -1,3 +1,11 @@
+/**
+ * Controller.java
+ * Gustavo Diaz, 2018
+ *
+ * The View for the zelda game.
+ *
+ */
+
 package zelda;
 
 import javafx.fxml.FXML;
@@ -77,12 +85,11 @@ public class View extends Group {
     }
 
     /**
-     * Compares the cells of the gameboard and displays those cells on the View grid
+     * Compares the cells of the GameBoard and displays those cells on the View grid
      * The view grid puts the player and enemy where they correspond on the x-y grid of
-     * the view based on the gameboard param
+     * the view based on the GameBoard param
      * @param gameBoard
      * @param link
-     * @param enemy
      */
     public void update(GameBoard gameBoard, Player link, ArrayList<Enemy> goblinsList, Arrow arrow) {
         assert gameBoard.getRowCount() == this.rowCount && gameBoard.getColumnCount() == this.columnCount;

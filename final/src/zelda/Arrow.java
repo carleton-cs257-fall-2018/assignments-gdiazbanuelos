@@ -1,3 +1,11 @@
+/**
+ * Arrow.java
+ * Gustavo Diaz, 2018
+ *
+ * The Arrow model for the "goblins"
+ *
+ */
+
 package zelda;
 
 import javafx.scene.image.Image;
@@ -67,7 +75,11 @@ public class Arrow extends Rectangle {
     }
 
 
-
+    /**
+     * Based on the Enum direction of Link,
+     * It creates the arrow and gives sets
+     * the appropriate image to the arrow
+     */
     private void setNewImage(){
         if(this.getCurrentDir() == Player.DIRECTION.SOUTH){
             this.stance = this.southStance;
@@ -78,6 +90,19 @@ public class Arrow extends Rectangle {
         } else{this.stance = this.westStance;}
     }
 
+    /**
+     * Moves the arrow in the direction that param Link is facing
+     * Once the arrow is fired, moves in the direction until it
+     * flies off the board, once the arrow is off the board Link
+     * can attack again. If the arrow hits an enemy it calles the
+     * playHitSound function
+     * @param gameBoard GameBoard is passed along to update the location
+     *                  of the arrow as it travels across the board
+     * @param link      The arrow alters the attack state of Link
+     *                  Once an arrow is created Link can no longer attack
+     *                  until the arrow flies off the board
+     * @param goblinsList List of the current enemies on the board
+     */
     public void moveBy(GameBoard gameBoard, Player link, ArrayList<Enemy> goblinsList){
         if(this.arrowRow >= 21 || this.arrowRow <= -1){
             this.delete = true;
@@ -105,6 +130,10 @@ public class Arrow extends Rectangle {
         }
     }
 
+    /**
+     * When the arrow hits an enemy, moveBy calls this function
+     * to create a clip that plays the kill.wav sound file
+     */
     public void playHitSound(){
         String song = "./src/res/kill.wav";
         Clip clip;

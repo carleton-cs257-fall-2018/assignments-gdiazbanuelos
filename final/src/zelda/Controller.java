@@ -1,3 +1,11 @@
+/**
+ * Controller.java
+ * Gustavo Diaz, 2018
+ *
+ * The Controller for the zelda game.
+ *
+ */
+
 package zelda;
 
 import javafx.application.Platform;
@@ -44,12 +52,14 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     /**
-     * Initializes the player, enemy, and  gameboard models
+     * Initializes the player, enemy, and  GameBoard models
+     * Link is always placed in the same location
+     * Creates number of enemies based on the current level of the game
+     * and places them randomly onto the board
      */
     public void initialize() {
         // Instantiate the board and the player
         link = new Player(6,5, Player.DIRECTION.SOUTH);
-
         for(int i = 0; i < level + 1; i++){
             Random random = new Random();
             int randomIntX = random.nextInt(30 + 1 + 1);
@@ -57,7 +67,6 @@ public class Controller implements EventHandler<KeyEvent> {
             Enemy goblin = new Enemy(randomIntY, randomIntX, Enemy.DIRECTION.SOUTH);
             goblinsList.add(goblin);
         }
-
         gameBoard = new GameBoard(rowCount, columnCount, link, goblinsList, this.level);
 
         // Set the properties of the board and player
@@ -194,15 +203,17 @@ public class Controller implements EventHandler<KeyEvent> {
         } else if(code == KeyCode.P){
             onPauseButton();
             keyEvent.consume();
-        } else if(code == KeyCode.L){
-            System.out.println("Size of list:" + goblinsList.size());
-            System.out.println("");
-            keyEvent.consume();
         } else {
             this.link.moveLinkBy(0, 0, gameBoard);
         }
     }
 
+    /**
+     * Increases the level of the game when the current level is beat
+     * Cancels all the timers and resets the GameOver label
+     * Stops the music and calls the initialize function
+     * to create a new GameBoard for the next level
+     */
     public void nextLevel(){
         this.level += 1;
         this.timer.cancel();
@@ -214,6 +225,11 @@ public class Controller implements EventHandler<KeyEvent> {
         initialize();
     }
 
+    /**
+     * Cancels all the timers and resets the GameOver label
+     * Stops the music and calls the initialize function
+     * to create a new GameBoard for a new game
+     */
     public void newGame(){
         this.timer.cancel();
         this.timer_two.cancel();
@@ -224,6 +240,10 @@ public class Controller implements EventHandler<KeyEvent> {
         initialize();
     }
 
+    /**
+     * Creates a clip that plays the overworld.wav
+     * sound file to play in the background
+     */
     public void startSong(){
         String song = "./src/res/overworld.wav";
         try
@@ -235,20 +255,24 @@ public class Controller implements EventHandler<KeyEvent> {
         catch (Exception exc) {}
     }
 
+    /**
+     * Creates a clip that plays the arrowsound.wav
+     * sound file to play when Link attacks
+     */
     public void startArrowSound(){
         String song = "./src/res/arrowsound.wav";
-        Clip arrowsound;
+        Clip arrowSound;
         try
         {
-            arrowsound = AudioSystem.getClip();
-            arrowsound.open(AudioSystem.getAudioInputStream(new File(song)));
-            arrowsound.start();
+            arrowSound = AudioSystem.getClip();
+            arrowSound.open(AudioSystem.getAudioInputStream(new File(song)));
+            arrowSound.start();
         }
         catch (Exception exc) {}
     }
 
     /**
-     * Pauses the game on button press
+     * Pauses the game on button "P" press
      */
     public void onPauseButton() {
         if (this.gameBoard.isPaused()){

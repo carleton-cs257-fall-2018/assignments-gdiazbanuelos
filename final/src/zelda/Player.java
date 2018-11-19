@@ -1,8 +1,15 @@
+/**
+ * Player.java
+ * Gustavo Diaz, 2018
+ *
+ * The Player model for the character "Link"
+ *
+ */
+
 package zelda;
 
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
@@ -23,7 +30,6 @@ public class Player extends Rectangle {
     private Image northStance = new Image("/res/north.png");
     private Image eastStance = new Image("/res/east.png");
     private Image westStance = new Image("/res/west.png");
-
 
     public enum DIRECTION {
         NORTH, EAST, WEST, SOUTH;
@@ -78,12 +84,16 @@ public class Player extends Rectangle {
         return this.canAttack;
     }
 
+    /**
+     * Sets the boolean canAttack to the param given
+     * @param canAttack
+     */
     public void setCanAttack(boolean canAttack){
         this.canAttack = canAttack;
     }
 
     /**
-     * Sets the new image of the model depending on the direction it is facing
+     * Sets the new image of the model depending on the Enum direction it is facing
      */
     private void setNewImage(){
         if(this.getCurrentDir() == DIRECTION.SOUTH){
@@ -96,10 +106,16 @@ public class Player extends Rectangle {
     }
 
     /**
-     * changes the player row and col on the gameboard by the param values
-     * @param rowChange
-     * @param columnChange
-     * @param gameBoard
+     * Changes the player row and col on the GameBoard by the param values
+     * If Link touches and enemy he is killed and calls the gameOverSound function
+     * to indicate to the player died and sets the gameOver boolean to true
+     *
+     * @param rowChange can only move by increments of one in the positive
+     *                  or negative direction
+     * @param columnChange can only move by increments of one in the positive
+     *      *              or negative direction
+     * @param gameBoard the GameBoard model is passed only to store any changes
+     *                  made to the models that are stored in the GameBaord
      */
     public void moveLinkBy(int rowChange, int columnChange, GameBoard gameBoard) {
         if (gameBoard.isGameOver()) {
@@ -147,16 +163,26 @@ public class Player extends Rectangle {
         }
     }
 
+    /**
+     * Retunrs the game over status of the game
+     * @return
+     */
     public boolean isGameOver(){
         return this.gameOver;
     }
 
-
+    /**
+     * Sets the gameOver boolean to true
+     */
     public void setGameOver(){
         this.gameOver = true;
 
     }
 
+    /**
+     * In the moveLinkBy function, it checks if link collides with an enemy
+     * Then creates an audioclip and plays the gameover.wav
+     */
     public void playGameOverSound() {
         String song = "./src/res/gameover.wav";
         if (gameoverSound == null) {

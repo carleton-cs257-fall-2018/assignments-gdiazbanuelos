@@ -1,3 +1,12 @@
+/**
+ * GameBoard.java
+ * Gustavo Diaz, 2018
+ *
+ * The GameBoard model for the "goblins"
+ *
+ */
+
+
 package zelda;
 
 import javafx.scene.shape.Rectangle;
@@ -35,7 +44,10 @@ public class GameBoard extends Rectangle {
 
     /**
      * Creates cellValue grid with empty cells and then places the player and enemy
+     * Then it places the player, Link, on the board.
+     * After, it places the enemies in goblinsList to be placed onto the board
      * @param link
+     * @param goblinsList
      */
     private void initializeLevel(Player link, ArrayList<Enemy> goblinsList) {
         // Empty all the cells
@@ -45,7 +57,7 @@ public class GameBoard extends Rectangle {
             }
         }
 
-        // Place the runner
+        // Place Link
         this.cells[link.getLinkRow()][link.getLinkCol()] = CellValue.LINK;
 
         for(int i = 0; i < this.level; i++) {
