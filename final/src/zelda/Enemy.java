@@ -32,7 +32,6 @@ public class Enemy extends Rectangle {
         this.enemyRow = row;
         this.enemyCol = col;
         this.currentDir = direction;
-        this.health = health;
         setNewImage();
     }
 

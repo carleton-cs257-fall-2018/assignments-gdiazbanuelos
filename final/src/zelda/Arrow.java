@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Arrow extends Rectangle {
 
@@ -77,11 +78,11 @@ public class Arrow extends Rectangle {
         } else{this.stance = this.westStance;}
     }
 
-    public void moveBy(GameBoard gameBoard, Player link, Enemy goblin){
-        if(this.arrowRow >= 20 || this.arrowRow <= 0){
+    public void moveBy(GameBoard gameBoard, Player link, ArrayList<Enemy> goblinsList){
+        if(this.arrowRow >= 21 || this.arrowRow <= -1){
             this.delete = true;
             link.setCanAttack(true);
-        } else if(this.arrowCol <= 0 || this.arrowCol >= 34 ){
+        } else if(this.arrowCol <= -1 || this.arrowCol >= 35 ){
             this.delete = true;
             link.setCanAttack(true);
         }
@@ -89,7 +90,12 @@ public class Arrow extends Rectangle {
         this.arrowRow = this.getArrowRow() + this.vel_y;
         this.arrowCol = this.getArrowCol() + this.vel_x;
         if(gameBoard.getCellValue(this.arrowRow, this.arrowCol) == zelda.GameBoard.CellValue.ENEMY){
-            goblin.setDelete(true);
+            for(int i = 0; i < goblinsList.size() -1; i++) {
+                if(goblinsList.get(i).getRow()==this.arrowRow && goblinsList.get(i).getCol()==this.arrowCol){
+                    goblinsList.get(i).setDelete(true);
+                    goblinsList.remove(i);
+                }
+            }
             playHitSound();
             this.changeDelete(true);
             gameBoard.addScore(1);

@@ -2,6 +2,8 @@ package zelda;
 
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 public class GameBoard extends Rectangle {
     public enum CellValue {
         EMPTY, LINK, ENEMY, SCRAPHEAP, ARROW;
@@ -22,21 +24,20 @@ public class GameBoard extends Rectangle {
      * @param rowCount
      * @param columnCount
      * @param link
-     * @param enemy
      */
-    public GameBoard(int rowCount, int columnCount, Player link, Enemy enemy) {
+    public GameBoard(int rowCount, int columnCount, Player link, ArrayList<Enemy> goblinsList, int level) {
         this.cells = new CellValue[rowCount][columnCount];
         this.columnCount = columnCount;
         this.rowCount = rowCount;
-        this.initializeLevel(link, enemy);
+        this.level = level;
+        this.initializeLevel(link, goblinsList);
     }
 
     /**
      * Creates cellValue grid with empty cells and then places the player and enemy
      * @param link
-     * @param enemy
      */
-    private void initializeLevel(Player link, Enemy enemy) {
+    private void initializeLevel(Player link, ArrayList<Enemy> goblinsList) {
         // Empty all the cells
         for (int row = 0; row < rowCount; row++) {
             for (int column = 0; column < columnCount; column++) {
@@ -46,7 +47,12 @@ public class GameBoard extends Rectangle {
 
         // Place the runner
         this.cells[link.getLinkRow()][link.getLinkCol()] = CellValue.LINK;
-        this.cells[enemy.getRow()][enemy.getCol()] = CellValue.ENEMY;
+
+        for(int i = 0; i < this.level; i++) {
+            if(goblinsList.get(i).getRow() != link.getLinkRow() && goblinsList.get(i).getCol() != link.getLinkCol()){
+                this.cells[goblinsList.get(i).getRow()][goblinsList.get(i).getCol()] = CellValue.ENEMY;
+            }
+        }
     }
 
     /**

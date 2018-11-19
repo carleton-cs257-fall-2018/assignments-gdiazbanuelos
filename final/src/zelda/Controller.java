@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,7 +31,9 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private int columnCount = 40;
 
     private Player link;
-    private Enemy goblin;
+    //private Enemy goblin;
+    private ArrayList<Enemy> goblinsList = new ArrayList<>();
+    private int level = 1;
     private Arrow arrow;
     private GameBoard gameBoard;
     private Timer timer;
@@ -46,8 +49,16 @@ public class Controller implements EventHandler<KeyEvent> {
     public void initialize() {
         // Instantiate the board and the player
         link = new Player(6,5, Player.DIRECTION.SOUTH);
-        goblin = new Enemy(12,12, Enemy.DIRECTION.SOUTH);
-        gameBoard = new GameBoard(rowCount, columnCount, link, goblin);
+
+        for(int i = 0; i < level + 1; i++){
+            Random random = new Random();
+            int randomIntX = random.nextInt(30 + 1 + 1);
+            int randomIntY = random.nextInt(18 + 1 + 1);
+            Enemy goblin = new Enemy(randomIntY, randomIntX, Enemy.DIRECTION.SOUTH);
+            goblinsList.add(goblin);
+        }
+
+        gameBoard = new GameBoard(rowCount, columnCount, link, goblinsList, this.level);
 
         // Set the properties of the board and player
         this.gameBoard.setPaused(false);
@@ -100,7 +111,7 @@ public class Controller implements EventHandler<KeyEvent> {
 
     private void updateArrow(){
         if(this.arrow.isDelete() != true){
-            this.arrow.moveBy(gameBoard, this.link, this.goblin);
+            this.arrow.moveBy(gameBoard, this.link, this.goblinsList);
         } else {
             this.link.setCanAttack(true);
         }
@@ -113,16 +124,18 @@ public class Controller implements EventHandler<KeyEvent> {
      * the player
      */
     private void updateEnemy(){
-        if(this.goblin.isDelete() != true) {
-            Random random = new Random();
-            int randomIntX = random.nextInt(1 + 1 + 1) - 1;
-            int randomIntY = 0;
-            if (randomIntX != 0) {
-                randomIntY = 0;
-            } else {
-                randomIntY = random.nextInt(1 + 1 + 1) - 1;
+        for(int i = 0; i < goblinsList.size() -1; i++) {
+            if(goblinsList.get(i).isDelete() != true) {
+                Random random = new Random();
+                int randomIntX = random.nextInt(1 + 1 + 1) - 1;
+                int randomIntY = 0;
+                if (randomIntX == 0) {
+                    randomIntY = random.nextInt(1 + 1 + 1) - 1;
+                }
+                goblinsList.get(i).moveBy(randomIntX, randomIntY, gameBoard, this.link);
             }
-            goblin.moveBy(randomIntX, randomIntY, gameBoard, this.link);
+        } if(goblinsList.size() == 1){
+            nextLevel();
         }
     }
 
@@ -133,10 +146,10 @@ public class Controller implements EventHandler<KeyEvent> {
      */
     private void updateAnimation() {
         if(this.link.isGameOver() != true) {
-            zeldaView.update(gameBoard, link, goblin, arrow);
+            zeldaView.update(gameBoard, link, goblinsList, arrow);
             this.scoreLabel.setText(String.format("Score: %d", this.gameBoard.getScore()));
         } else{
-            zeldaView.update(gameBoard, link, goblin, arrow);
+            zeldaView.update(gameBoard, link, goblinsList, arrow);
             this.deathLabel.setText(String.format("GAME OVER"));
             this.clip.stop();
             this.link.playGameOverSound();
@@ -181,16 +194,33 @@ public class Controller implements EventHandler<KeyEvent> {
         } else if(code == KeyCode.P){
             onPauseButton();
             keyEvent.consume();
+        } else if(code == KeyCode.L){
+            System.out.println("Size of list:" + goblinsList.size());
+            System.out.println("");
+            keyEvent.consume();
         } else {
             this.link.moveLinkBy(0, 0, gameBoard);
         }
+    }
+
+    public void nextLevel(){
+        this.level += 1;
+        this.timer.cancel();
+        this.timer_two.cancel();
+        this.arrow = null;
+        this.deathLabel.setText("");
+        this.clip.stop();
+        this.goblinsList.clear();
+        initialize();
     }
 
     public void newGame(){
         this.timer.cancel();
         this.timer_two.cancel();
         this.arrow = null;
+        this.deathLabel.setText("");
         this.clip.stop();
+        this.goblinsList.clear();
         initialize();
     }
 

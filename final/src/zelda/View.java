@@ -7,12 +7,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+
 public class View extends Group {
     public final static double CELL_WIDTH = 20.0;
 
     @FXML private int rowCount = 21;
     @FXML private int columnCount = 40;
     private Rectangle[][] cellViews;
+    private Image southStance = new Image("/res/southEnemy.png");
+
 
     public View() {
     }
@@ -80,13 +84,13 @@ public class View extends Group {
      * @param link
      * @param enemy
      */
-    public void update(GameBoard gameBoard, Player link, Enemy enemy, Arrow arrow) {
+    public void update(GameBoard gameBoard, Player link, ArrayList<Enemy> goblinsList, Arrow arrow) {
         assert gameBoard.getRowCount() == this.rowCount && gameBoard.getColumnCount() == this.columnCount;
         for (int row = 0; row < this.rowCount; row++) {
             for (int column = 0; column < this.columnCount; column++) {
                 GameBoard.CellValue cellValue = gameBoard.getCellValue(row, column);
                 if (cellValue == zelda.GameBoard.CellValue.ENEMY) {
-                    this.cellViews[row][column].setFill(new ImagePattern(enemy.getStance()));
+                    this.cellViews[row][column].setFill(new ImagePattern(southStance));
                     //this.cellViews[row][column].setFill(Color.RED);
                 } else if (cellValue == zelda.GameBoard.CellValue.SCRAPHEAP) {
                     this.cellViews[row][column].setFill(new ImagePattern(new Image("/res/tomb.png")));
